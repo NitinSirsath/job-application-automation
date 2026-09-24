@@ -1,0 +1,13 @@
+# Ignore actual user data
+/personal_data/resume.pdf
+/personal_data/profile.md
+/personal_data/form_answers.md
+/personal_data/credentials.md
+
+# Ignore the tracking folder entirely
+/tracking/
+
+# Ensure templates are committed
+!/personal_data/profile_template.md
+!/personal_data/form_answers_template.md
+!/personal_data/credentials_template.md
