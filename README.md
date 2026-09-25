@@ -10,7 +10,7 @@ This repository contains zero executable code. It is a small set of Markdown ins
 4. The agent creates missing personal-data files from the committed templates and guides setup one topic at a time.
 5. Setup is resumable: answers are saved immediately, skipped optional values are stored as `None`, and a local `setup_checklist.md` is only a progress aid.
 6. The agent verifies the real files before allowing applications.
-7. After setup, choose today's platforms and requested application counts. Supported choices are LinkedIn, Indeed, Naukri, Wellfound, Instahyre, Workday, company career pages, and web discovery.
+7. After setup, choose today's platforms and requested application counts. Supported choices are LinkedIn, Indeed, Naukri, Wellfound, Instahyre, Workday, company career pages, web discovery, The Reliable Jobs, TEKsystems, Teksands, D4hire, Supersourcing, and We Work Remotely.
 8. Today's plan and every outcome are stored in exactly one file: `applied/YYYY-MM-DD/applications.md`.
 9. The agent applies one job at a time, uses the platform strategy files, respects the hard daily limits, pauses for the first-submit `ok` approval, and records confirmation only after the site shows it.
 10. A later session on the same local date resumes the same daily file instead of creating another tracker.
@@ -41,6 +41,8 @@ The legacy `tracking/applied_jobs.csv`, when present, is read-only history. The 
 - Instahyre: 10
 - Workday: 5
 - company_direct + discovery combined: 10
+
+The Reliable Jobs, TEKsystems, Teksands, D4hire, Supersourcing, and We Work Remotely are source selectors only; they do not create additional daily-limit buckets. Their applications are counted under the existing actual-destination limits.
 - all platforms combined: 50
 
 User-requested counts and lower user limits are respected. Counts reset by local date, while duplicate history remains available across earlier daily files and any legacy CSV.
@@ -54,6 +56,17 @@ Model names and versions are intentionally not hard-coded.
 - **Medium/current-vendor tier:** Workday, company direct, and discovery.
 
 The agent recommends a tier from the same vendor and asks the user to select it when a change is needed. It should not pretend to switch models itself or force a new chat unless a real handoff is necessary.
+
+## 🔎 Selectable job sources
+
+- The Reliable Jobs — `https://thereliablejobs.com/`
+- TEKsystems — `https://www.teksystems.com/en/careers`
+- Teksands — `https://teksands.ai/`
+- D4hire — `https://d4hire.in/`
+- Supersourcing — `https://supersourcing.com/`
+- We Work Remotely — `https://weworkremotely.com/`
+
+Source selection records where the job was found; the daily record also stores the actual application destination. The existing discovery, company-direct, and Workday flows are reused according to that destination. Unsupported or email-only routes are reported rather than invented, and source-site auto-apply services/recruiter emails are not enabled.
 
 ## 🔒 Practical safeguards
 
