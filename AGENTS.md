@@ -9,9 +9,9 @@ This repository is a markdown-only job application framework. The AI agent uses 
 ### SETUP mode
 
 Run SETUP mode when any of these is missing or still contains bracketed placeholder text:
-- \`personal_data/resume.pdf\`
-- \`personal_data/profile.md\`
-- \`personal_data/form_answers.md\`
+- `personal_data/resume.pdf`
+- `personal_data/profile.md`
+- `personal_data/form_answers.md`
 
 Work with the user one topic at a time, in this order:
 1. Resume
@@ -22,12 +22,12 @@ Work with the user one topic at a time, in this order:
 6. Application password
 
 Save each answer to its file immediately before moving to the next topic:
-- Resume: make sure \`personal_data/resume.pdf\` exists.
-- Basic information: update \`personal_data/profile.md\`.
-- Job search preferences: update \`personal_data/profile.md\`.
-- Where to apply: update the **Where to apply** field in \`personal_data/profile.md\`.
-- Common screening answers: update \`personal_data/form_answers.md\`.
-- Application password: update \`personal_data/credentials.md\`.
+- Resume: make sure `personal_data/resume.pdf` exists.
+- Basic information: update `personal_data/profile.md`.
+- Job search preferences: update `personal_data/profile.md`.
+- Where to apply: update the **Where to apply** field in `personal_data/profile.md`.
+- Common screening answers: update `personal_data/form_answers.md`.
+- Application password: update `personal_data/credentials.md`.
 
 Ask the user to sign in to each selected job site in the browser the agent uses.
 
@@ -41,29 +41,29 @@ Do not begin job applications during SETUP mode.
 
 ### START mode
 
-START mode runs only when the user types \`start\` and setup is complete.
+START mode runs only when the user types `start` and setup is complete.
 
-For each site listed under **Where to apply** in \`personal_data/profile.md\`, use that site's strategy file:
-- LinkedIn → \`instructions/platforms/linkedin_strategy.md\`
-- Indeed → \`instructions/platforms/indeed_strategy.md\`
-- Naukri → \`instructions/platforms/naukri_strategy.md\`
-- Wellfound → \`instructions/platforms/wellfound_strategy.md\`
-- Workday → \`instructions/platforms/workday_strategy.md\`
-- company_direct → \`instructions/advanced_strategies/company_direct_apply.md\`
-- discovery → \`instructions/advanced_strategies/web_search_discovery.md\`
+For each site listed under **Where to apply** in `personal_data/profile.md`, use that site's strategy file:
+- LinkedIn → `instructions/platforms/linkedin_strategy.md`
+- Indeed → `instructions/platforms/indeed_strategy.md`
+- Naukri → `instructions/platforms/naukri_strategy.md`
+- Wellfound → `instructions/platforms/wellfound_strategy.md`
+- Workday → `instructions/platforms/workday_strategy.md`
+- company_direct → `instructions/advanced_strategies/company_direct_apply.md`
+- discovery → `instructions/advanced_strategies/web_search_discovery.md`
 
 Before browsing for applications, read:
-- \`personal_data/profile.md\`
-- \`personal_data/form_answers.md\`
-- \`personal_data/credentials.md\`
-- \`tracking/applied_jobs.csv\`
-- \`tracking/created_accounts.csv\`
+- `personal_data/profile.md`
+- `personal_data/form_answers.md`
+- `personal_data/credentials.md`
+- `tracking/applied_jobs.csv`
+- `tracking/created_accounts.csv`
 
 Apply only when the fit check passes, no duplicate exists, and the relevant daily limits allow the application.
 
-Before the first submit of each START session, show the user the filled answers that will be submitted and wait for the user to reply \`ok\`. After that approval, continue on its own.
+Before the first submit of each START session, show the user the filled answers that will be submitted and wait for the user to reply `ok`. After that approval, continue on its own.
 
-At the end of the session, report what was applied and what was skipped. For every skipped or \`needs_user\` job, include the reason or unanswered question. Ask the user any questions that could not be answered from the saved files.
+At the end of the session, report what was applied and what was skipped. For every skipped or `needs_user` job, include the reason or unanswered question. Ask the user any questions that could not be answered from the saved files.
 
 ## 2. Daily limits
 
@@ -76,11 +76,11 @@ Hard maximum applications per day:
 - company direct + discovery combined: 10
 - all sites combined: 50
 
-The user may set LOWER limits in \`personal_data/profile.md\`, never higher. If the profile asks for a higher limit, use the hard maximum and tell the user.
+The user may set LOWER limits in `personal_data/profile.md`, never higher. If the profile asks for a higher limit, use the hard maximum and tell the user.
 
 Before EVERY application:
-1. Count today's rows with status \`applied\` in \`tracking/applied_jobs.csv\` for that platform.
-2. Count today's rows with status \`applied\` across all platforms.
+1. Count today's rows with status `applied` in `tracking/applied_jobs.csv` for that platform.
+2. Count today's rows with status `applied` across all platforms.
 3. For company direct and discovery, enforce their combined total.
 4. If the relevant limit is reached, stop that platform for today and tell the user.
 
@@ -103,34 +103,34 @@ Never attempt to bypass a CAPTCHA or 2FA challenge.
 ### Fit check
 
 Apply only when:
-- the job title matches the target job titles in \`personal_data/profile.md\`;
-- the location matches the locations accepted in \`personal_data/profile.md\`;
-- the work mode is one of the accepted work modes in \`personal_data/profile.md\`;
-- the required years of experience are compatible with the user's experience in \`personal_data/profile.md\`;
+- the job title matches the target job titles in `personal_data/profile.md`;
+- the location matches the locations accepted in `personal_data/profile.md`;
+- the work mode is one of the accepted work modes in `personal_data/profile.md`;
+- the required years of experience are compatible with the user's experience in `personal_data/profile.md`;
 - the company is not on the companies-to-skip list.
 
-If the fit check fails, skip the job and log it as \`skipped\` with the reason.
+If the fit check fails, skip the job and log it as `skipped` with the reason.
 
 ### Duplicate check
 
 Skip a job when:
-- its \`job_id\` is already logged in \`tracking/applied_jobs.csv\`; or
-- the same company and job title are already marked \`applied\`.
+- its `job_id` is already logged in `tracking/applied_jobs.csv`; or
+- the same company and job title are already marked `applied`.
 
 ### Never guess
 
 Answer only from:
-- \`personal_data/profile.md\`
-- \`personal_data/form_answers.md\`
+- `personal_data/profile.md`
+- `personal_data/form_answers.md`
 - the user's resume
 
 If a required question is not covered:
 1. Do not guess.
 2. Skip the job.
-3. Log it with status \`needs_user\`.
-4. Put the unanswered question under \`## Learned Answers\` in \`personal_data/form_answers.md\` for the user to fill in.
+3. Log it with status `needs_user`.
+4. Put the unanswered question under `## Learned Answers` in `personal_data/form_answers.md` for the user to fill in.
 
-Never submit text that still contains square-bracket placeholders or placeholder text such as \`X years\`.
+Never submit text that still contains square-bracket placeholders or placeholder text such as `X years`.
 
 ## 4. Model suggestions
 
@@ -153,42 +153,42 @@ After setup, suggest starting a NEW chat on the suggested model instead of switc
 
 ## 5. Logins and account creation
 
-The AI signs in and creates accounts itself using \`personal_data/credentials.md\` when its app allows it.
+The AI signs in and creates accounts itself using `personal_data/credentials.md` when its app allows it.
 
 Fallback only when the app blocks it, for example when the app will not type passwords or create accounts:
 
 "Please sign in / create the account / click the email verification link in this tab, then reply done"
 
-Pause until the user replies \`done\`, then continue.
+Pause until the user replies `done`, then continue.
 
 For selected job sites, the user signs in during SETUP in the agent's browser.
 
 ## 6. Tracking files
 
-SETUP creates \`tracking/\` and both files if they are missing.
+SETUP creates `tracking/` and both files if they are missing.
 
-### \`tracking/applied_jobs.csv\`
+### `tracking/applied_jobs.csv`
 
 Header:
 
-\`"date","time","platform","company","job_title","job_id","job_url","status","notes"\`
+`"date","time","platform","company","job_title","job_id","job_url","status","notes"`
 
 Allowed status values:
-- \`applied\`
-- \`skipped\`
-- \`needs_user\`
+- `applied`
+- `skipped`
+- `needs_user`
 
 Every field must be enclosed in double quotes.
 
-Write \`"applied"\` only after the site shows its confirmation.
+Write `"applied"` only after the site shows its confirmation.
 
-The \`notes\` field contains the skip reason or unanswered question.
+The `notes` field contains the skip reason or unanswered question.
 
-### \`tracking/created_accounts.csv\`
+### `tracking/created_accounts.csv`
 
 Header:
 
-\`"date","company","portal_url","login_email","password","email_verified"\`
+`"date","company","portal_url","login_email","password","email_verified"`
 
 Log newly created company accounts immediately.
 
@@ -196,7 +196,7 @@ Before creating a Workday or other company account, check this file first. If an
 
 ## 7. Submission behavior
 
-Before the first submit of each session, show the filled answers and wait for \`ok\`.
+Before the first submit of each session, show the filled answers and wait for `ok`.
 
 After approval:
 - submit one application at a time;
@@ -215,15 +215,15 @@ Naukri remains usable even though its search flow is different; use target job t
 ## 9. File references
 
 The active instruction files are:
-- \`AGENTS.md\`
-- \`CLAUDE.md\`
-- \`instructions/platforms/linkedin_strategy.md\`
-- \`instructions/platforms/indeed_strategy.md\`
-- \`instructions/platforms/naukri_strategy.md\`
-- \`instructions/platforms/wellfound_strategy.md\`
-- \`instructions/platforms/workday_strategy.md\`
-- \`instructions/advanced_strategies/company_direct_apply.md\`
-- \`instructions/advanced_strategies/web_search_discovery.md\`
-- \`personal_data/profile_template.md\`
-- \`personal_data/form_answers_template.md\`
-- \`personal_data/credentials_template.md\`
+- `AGENTS.md`
+- `CLAUDE.md`
+- `instructions/platforms/linkedin_strategy.md`
+- `instructions/platforms/indeed_strategy.md`
+- `instructions/platforms/naukri_strategy.md`
+- `instructions/platforms/wellfound_strategy.md`
+- `instructions/platforms/workday_strategy.md`
+- `instructions/advanced_strategies/company_direct_apply.md`
+- `instructions/advanced_strategies/web_search_discovery.md`
+- `personal_data/profile_template.md`
+- `personal_data/form_answers_template.md`
+- `personal_data/credentials_template.md`
