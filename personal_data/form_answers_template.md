@@ -3,10 +3,9 @@
 > **Instructions:** Copy this file to `form_answers.md` and replace the bracketed answers with your actual responses. These answers are used for common ATS and screening questions.
 
 ## Legal & Work Authorization
-- **Are you legally authorized to work in the country where this job is located?**
-  [Yes / No]
-- **Will you now or in the future require sponsorship for employment visa status?**
-  [Yes / No]
+- **Country:** [Country]
+- **Work authorization in this country:** [Yes / No]
+- **Sponsorship required now or in the future in this country:** [Yes / No]
 
 ## Voluntary Disclosures (EEO)
 - **Gender:**
