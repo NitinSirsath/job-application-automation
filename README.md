@@ -41,3 +41,5 @@ At `START`, if the current model is heavier than the task needs, use a lighter m
 If the same form step fails on 3 jobs in a row, stop that workflow and suggest switching to the mid tier.
 
 Start a **NEW chat** after setup instead of switching models mid-chat. All answers are saved in files, so nothing is lost.
+
+Works for any role; set your target job titles during setup.
