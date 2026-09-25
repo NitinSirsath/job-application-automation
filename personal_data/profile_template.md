@@ -31,7 +31,9 @@
 - **Where to Apply:** [linkedin, indeed, naukri, wellfound, workday, company_direct, discovery]
 - **Daily Limit Per Site (Optional):** [Lower than the maximum only]
 - **Companies to Skip:** [Company names, or None]
+- **Company Career Page URLs (for company_direct):** [URLs, or None]
 
 ## Pitch / Summary
 > A short 2-3 sentence summary used for platforms like Wellfound or cover letter text areas.
-[I am a [Current Job Title] with [Total Years of Experience] years of experience specializing in [Core Tech Stack]. I am excited to contribute to [company/role from the job post].]
+
+[Your 2-3 sentence summary, with no company name. The AI adds the company and role when applying.]
