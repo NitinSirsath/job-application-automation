@@ -1,21 +1,24 @@
 # Naukri Application Strategy
 
 ## Objective
-Quickly apply to relevant technical roles on Naukri.com.
+Apply to relevant technical roles on Naukri.com.
 
 ## Search Strategy
 1. Navigate to Naukri.com search.
-2. Input key skills from `personal_data/profile.md` (e.g., React, Next.js, JavaScript).
-3. Set the experience filter appropriately based on the user's profile.
+2. Input key skills from `personal_data/profile.md`.
+3. Set the experience filter appropriately based on the saved profile.
 4. Filter for postings in the last 1 to 2 days.
 
 ## Execution Flow
-1. Focus on listings that have the simple **Apply** button which does not redirect externally.
-2. Read the post and run the fit, duplicate and daily-limit checks in `AGENTS.md`. Apply may submit at once, so before the first Apply click of the session show the job and the profile details Naukri will send, and wait for `ok`.
-3. Click Apply. Often, Naukri auto-submits based on the existing user profile.
-4. If additional questions are prompted, answer using `personal_data/form_answers.md`.
-5. Log the application to `tracking/applied_jobs.csv`.
-6. Wait at least 2 minutes before another Naukri apply.
+1. Read the listing and run the fit, scoped duplicate, daily-limit, site-stop, and pacing checks in `AGENTS.md`.
+2. Focus on listings with the simple **Apply** button that does not redirect externally.
+3. Because Naukri may submit immediately on Apply, before the first Apply click of the session show the job and the profile/answers Naukri will send and wait for `ok`.
+4. Compare any prefilled/parsed factual information with the saved profile before the potentially instant submit.
+5. If additional questions appear, answer only from matching saved data. Otherwise stop and log `needs_user`.
+6. Click Apply and verify the resulting confirmation/status before recording success.
+7. Append the outcome immediately to today's `applied/YYYY-MM-DD/applications.md`.
+8. Wait at least 2 minutes before another Naukri apply.
 
 ## Exclusions
-- Skip roles where the required location does not match the user's preferences in `personal_data/profile.md`.
+- Skip roles where the required location does not match the user's preferences.
+- Do not guess answers.

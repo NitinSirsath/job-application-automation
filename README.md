@@ -1,43 +1,86 @@
 # AI-Native Job Application Framework
 
-Welcome to the AI-Native Job Application Framework! This repository contains zero executable code. It consists entirely of structured markdown prompts, configuration templates, and tracking files designed to instruct an AI agent equipped with browser automation and web search to apply for jobs on your behalf.
-
-Works for any role; set your target job titles during setup.
+This repository contains zero executable code. It is a small Markdown prompt pack plus local personal files, a setup checklist, and one daily application record per date.
 
 ## 🚀 Workflow
 
-1. **Download the repository folder.**
-2. **Open the folder in your AI app** with its browser tool turned on.
+1. Download the repository folder.
+2. Open the folder in Codex, Claude Code, Antigravity, or another agent with browser/search access.
 3. Type `start`.
-4. Answer the setup questions one topic at a time. The agent saves your answers into the personal files and creates the tracking files.
-5. Sign in to the job sites you selected in the agent's browser.
-6. When setup is complete, the agent gives a model suggestion.
-7. **Open a new chat on the suggested model and type `start`.**
-8. The agent applies only to sites listed under **Where to apply** in `personal_data/profile.md`, using the matching strategy file and the project's daily limits.
+4. The agent checks both the setup checklist and the actual required local files/answers.
+5. If setup is unfinished, it resumes one topic at a time without overwriting completed information and does not apply for jobs.
+6. After setup, choose the supported application platforms and requested counts.
+7. The agent creates/resumes one daily record at `applied/YYYY-MM-DD/applications.md`.
+8. The agent uses saved information, fit checks, scoped duplicate checks, hard daily limits, two-minute pacing, and explicit first-submit review.
+9. After each outcome, the agent appends the job result immediately. New unanswered questions are saved with their employer/country/role/portal context.
+10. At the end of the session, the agent reports applied/skipped/needs-user outcomes and preserves enough progress for the next chat.
 
-Job sites limit automated applying by volume and speed, so this framework enforces strict daily limits.
+Setup never starts applications until all required setup checks pass.
 
-On Claude, you will be asked to approve each submit.
+## 📁 Local data and records
 
----
+```text
+personal_data/
+  resume.pdf
+  profile.md
+  form_answers.md
+  credentials.md
 
-## 🤖 AI Model Selection Guide
+applied/
+  YYYY-MM-DD/
+    applications.md
 
-Do not hard-code model names or versions. The right model lineup changes over time.
+tracking/
+  created_accounts.csv
+  applied_jobs.csv   # legacy, read-only when present
+```
 
-The AI works out which app and model it is running on and suggests models from that same vendor's CURRENT lineup, using its own knowledge or the app's model picker.
+Only the templates and instruction files are committed. Real personal data, account records, runtime setup checklists, and daily application files are ignored by Git.
 
-**Fast / light tier:**
-- LinkedIn, Indeed, Naukri, and Wellfound quick apply.
+`tracking/applied_jobs.csv` is a legacy read-only input if it already exists. New application records are written only to the dated Markdown file.
 
-**Mid tier:**
-- Workday, company direct apply, and discovery mode.
+## 🧭 Supported application sources
 
-**Default / strongest tier:**
-- Setup and initial personal-data configuration.
+- LinkedIn
+- Indeed
+- Naukri
+- Wellfound
+- Instahyre
+- Workday
+- Company career pages (`company_direct`)
+- Web discovery (`discovery`)
 
-At `START`, if the current model is heavier than the task needs, use a lighter model from the same vendor. If it is too light for Workday or direct apply, use the mid tier.
+For `company_direct`, provide career URLs during setup. Discovery does not need saved career URLs.
 
-If the same form step fails on 3 jobs in a row, stop that workflow and suggest switching to the mid tier.
+Any form hosted by Workday is counted as Workday, regardless of where the job was found.
 
-Start a **NEW chat** after setup instead of switching models mid-chat. All answers are saved in files, so nothing is lost.
+## 🔢 Hard daily limits
+
+- LinkedIn: 20
+- Indeed: 20
+- Naukri: 25
+- Wellfound: 10
+- Instahyre: 10
+- Workday: 5
+- `company_direct` + `discovery`: 10 combined
+- All platforms: 50 combined
+
+The user may request lower counts. The agent must recount before every application, including after a local-midnight change and when resuming a previous session.
+
+## 🤖 Model guidance
+
+Model names and versions are intentionally not hard-coded.
+
+- Setup: strongest/higher tier.
+- Quick-apply platforms: light tier.
+- Workday, company-direct, discovery: medium tier.
+
+The agent asks the user to select the appropriate tier when needed; it does not pretend to switch models. A new chat is not mandatory merely because a model change would be useful. When a handoff is genuinely needed, all progress is saved first.
+
+## ✅ Safety and practical safeguards
+
+The framework keeps the existing practical protections: fit checks, scoped duplicate checks, no guessed answers, first-submit `ok`, host-app approvals, confirmation before success, two-minute pacing, site-stop/CAPTCHA/authentication rules, and retry limits.
+
+The LinkedIn strategy uses the GitHub-safe wording `Follow [company]` rather than angle-bracket HTML.
+
+The setup checklist is a helper, not proof of readiness. The agent must inspect the actual files and saved values every time `start` is used.
