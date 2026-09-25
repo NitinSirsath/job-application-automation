@@ -1,3 +1,7 @@
+# Keep the auto-loaded project instructions committed
+!/AGENTS.md
+!/CLAUDE.md
+
 # Ignore actual user data
 /personal_data/resume.pdf
 /personal_data/profile.md
