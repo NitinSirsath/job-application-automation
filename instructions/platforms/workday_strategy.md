@@ -30,9 +30,6 @@ Workday may require a unique account for every company you apply to. Check the e
 5. **Submission:**
    - Run the answer check from `AGENTS.md`.
    - Before the first submit of the session, show the filled answers and wait for `ok`.
-   - Review and submit the application.
-   - Log the successful application to `tracking/applied_jobs.csv`.
-   - Wait at least 2 minutes before another Workday submit.
 6. **Email or account verification fallback:**
    - If Workday requires email verification before the app can proceed and the agent cannot open the user's inbox, pause and say:
      "Please sign in / create the account / click the email verification link in this tab, then reply done"
