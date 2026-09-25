@@ -21,8 +21,8 @@
 - **Total Years of Experience:** [E.g., 4]
 - **Core Tech Stack:** [E.g., React, Next.js, TypeScript, Tailwind CSS]
 - **Notice Period (Days):** [30]
-- **Current CTC (Optional):** [Your yearly compensation] [Currency]
-- **Expected CTC (Optional):** [Your yearly compensation] [Currency]
+- **Current CTC (Optional):** [e.g., 1200000 INR]
+- **Expected CTC (Optional):** [e.g., 1500000 INR]
 
 ## Job Search
 - **Target Job Titles:** [e.g., Frontend Engineer, React Developer]
