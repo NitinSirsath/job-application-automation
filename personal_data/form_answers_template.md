@@ -38,7 +38,7 @@
 
 ## Miscellaneous Standard Questions
 - **How did you hear about this job?**
-  [LinkedIn / Company Website / Job Board]
+  The site where the job was found.
 - **Are you willing to relocate?**
   [Yes / No]
 
