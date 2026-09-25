@@ -26,26 +26,10 @@
 
 ## Contextual Answers
 
-Use this section for answers that depend on an employer, country, role, portal, or exact question wording. Reuse a contextual answer only when the current context matches.
-
-### Contextual Answer 1
-- **Employer:** [Employer or Any]
-- **Country:** [Country or Any]
-- **Role / job title:** [Role or Any]
-- **Portal / ATS:** [Portal or Any]
-- **Exact question:** [Question]
-- **Answer:** [Answer]
-- **Notes:** [Why this context matters or None]
+Use this section for answers that depend on an employer, country, role, portal, or exact question wording. This section must remain empty until a real contextual question arises. Add a contextual record only when there is an actual question to record.
 
 ## Learned Answers
 
-When a required question was previously unanswered, add the resolved answer here immediately after the user provides it.
+Use this section for required questions that were previously unanswered. This section must remain empty until a real question is answered and learned. Add a learned record only when the user provides the answer.
 
-### Learned Answer 1
-- **Employer:** [Employer or Any]
-- **Country:** [Country or Any]
-- **Role / job title:** [Role or Any]
-- **Portal / ATS:** [Portal or Any]
-- **Exact question:** [Question]
-- **Answer:** [Answer]
-- **Reuse rule:** [Exact context required / broader context agreed by user]
+When a record is needed, use the concise contextual record format defined in `AGENTS.md` and preserve all existing records.
