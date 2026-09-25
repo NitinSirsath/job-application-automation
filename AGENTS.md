@@ -112,8 +112,14 @@ Supported choices:
 - Workday
 - company career pages (`company_direct`)
 - web discovery (`discovery`)
+- The Reliable Jobs
+- TEKsystems
+- Teksands
+- D4hire
+- Supersourcing
+- We Work Remotely
 
-For quick-apply platforms, offer 10 or 15 as convenient starting counts when the limits permit. For `company_direct`, require company career URLs from `personal_data/profile.md`. `discovery` does not require saved career URLs.
+The six job-source choices are source selectors, not new independent application-limit buckets. Route each selected source to the actual application destination at runtime and apply the existing destination limits. For quick-apply platforms, offer 10 or 15 as convenient starting counts when the limits permit. For `company_direct`, require company career URLs from `personal_data/profile.md` when applicable. `discovery` and the listed job sources do not require saved career URLs.
 
 For each selected platform:
 - ask for the requested application count;
@@ -154,6 +160,12 @@ Start the file with:
 | workday |  | 0 | 0 | 0 |
 | company_direct |  | 0 | 0 | 0 |
 | discovery |  | 0 | 0 | 0 |
+| the_reliable_jobs |  | 0 | 0 | 0 |
+| teksystems |  | 0 | 0 | 0 |
+| teksands |  | 0 | 0 | 0 |
+| d4hire |  | 0 | 0 | 0 |
+| supersourcing |  | 0 | 0 | 0 |
+| we_work_remotely |  | 0 | 0 | 0 |
 
 ## Site Stops
 
@@ -190,6 +202,8 @@ For each job, append immediately after the outcome:
 - Work mode:
 - Job URL:
 - Job ID (company/portal scoped):
+- Discovery source:
+- Actual application destination:
 - Resume filename:
 - Submitted answers:
   - Question: Answer
@@ -369,6 +383,25 @@ Strategy files never override the rules in this file.
 ### Workday classification
 Any application that uses a Workday application form counts as **workday**, regardless of whether the job was found through Workday search, discovery, a company URL, or another source.
 
+### Job-source routing
+The following selectable sources reuse existing flows and do not create new automation systems:
+- **The Reliable Jobs** → use discovery. The current public route may lead to an external application form; inspect the actual job and continue only through a supported destination.
+- **TEKsystems** → use company_direct from the careers page. If the actual job opens a Workday form, hand off to Workday and count it as workday.
+- **Teksands** → use company_direct for the current Teksands/Hire4X candidate route. Inspect the actual form and use the custom/proprietary ATS rules; do not assume fields beyond what the page shows.
+- **D4hire** → currently source-only unless a specific candidate job/application route is discoverable. The public site is a recruitment-agency site; if no job/application route exists, report the source as unavailable and do not invent an application flow.
+- **Supersourcing** → use company_direct for the current developer/job route and inspect the actual candidate form; treat any profile/talent registration as incomplete until a specific job application is confirmed.
+- **We Work Remotely** → use discovery. Inspect the job's **Apply for this position** destination. If it opens an ATS/company form, use the corresponding existing flow. If it provides only an email application, report that route as unavailable; do not send recruiter/application emails automatically.
+
+For every selected source:
+1. Record the selected source in the daily record.
+2. Inspect the actual job/application destination before applying.
+3. Record the actual destination URL/host in the daily record.
+4. Route to the existing flow based on the actual destination, not the source name.
+5. Count only a confirmed application to a specific job. A talent registration, profile creation, account creation, or Apply-button click without confirmed submission is not `applied`.
+6. Preserve all existing duplicate, daily-limit, approval, login/upload fallback, security-stop, pacing, and confirmation rules.
+
+Do not enable or use a source site's independent auto-apply service, and do not send recruiter emails automatically.
+
 ### Discovery handoff
 Discovery must continue the currently discovered job's application flow:
 - do not restart another platform's search;
@@ -408,5 +441,8 @@ The instructions must support these scenarios without contradictions:
 14. **Legacy site stop by date** — a today's legacy skipped row whose notes begin `site stopped:` blocks that platform today; an earlier-date stop does not.
 15. **Overlapping legacy + Markdown application** — the same application recorded in both sources is counted once.
 16. **New-chat/model handoff** — all progress is saved first; the user can resume without repeating completed setup or today's plan.
+17. **Selectable job sources** — each new source can be selected in PLAN; the source is recorded, the actual destination is inspected, and routing follows the existing discovery/company-direct/Workday flow.
+18. **Unconfirmed source action** — profile/talent registration or an Apply-button click without a site confirmation is not counted as `applied`.
+19. **Source-route unavailable** — an unsupported destination or email-only route is reported as unavailable without inventing a flow or sending an automatic email.
 
 Do not claim live application testing. These walkthroughs are static instruction/workflow checks unless an actual browser session is separately performed.
