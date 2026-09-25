@@ -127,6 +127,15 @@ For each selected platform:
 - never exceed the hard limits in this file;
 - save today's platform plan and current progress in `applied/YYYY-MM-DD/applications.md`.
 
+Requested source targets and destination limits:
+- Each application belongs to one selected source/plan choice. A confirmed application advances that choice's requested target.
+- The same confirmed application also consumes the actual application's destination daily allowance and counts once toward the all-platform global limit.
+- Before applying, check both the selected source's remaining requested target and the actual destination/global limits.
+- Store only one job record for the application.
+- A blank `Requested` value for an unselected destination does not block an application routed there; destination limits still apply.
+- Example: if the user requests 2 We Work Remotely applications and both route to Workday, confirmations make WWR progress 2/2, consume 2 Workday applications, and consume 2 global applications. Stop the WWR plan at 2/2 even if Workday still has remaining capacity.
+- If Workday's daily limit is already exhausted before a WWR job reaches the application form, do not apply; the WWR target remains unadvanced and the destination limit blocks that application.
+
 Use the user's local date, not UTC.
 
 If today's file already exists, resume it instead of creating a second file or asking for the plan again unless the user wants to change the plan.
