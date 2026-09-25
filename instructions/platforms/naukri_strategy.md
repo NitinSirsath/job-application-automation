@@ -1,21 +1,26 @@
 # Naukri Application Strategy
 
 ## Objective
-Quickly apply to relevant technical roles on Naukri.com.
+Apply to relevant technical roles on Naukri.com.
 
 ## Search Strategy
-1. Navigate to Naukri.com search.
-2. Input key skills from `personal_data/profile.md` (e.g., React, Next.js, JavaScript).
-3. Set the experience filter appropriately based on the user's profile.
-4. Filter for postings in the last 1 to 2 days.
+1. Navigate to Naukri search.
+2. Use skills and target titles from `personal_data/profile.md`.
+3. Set experience filters from the saved profile.
+4. Prefer recent postings.
 
 ## Execution Flow
-1. Focus on listings that have the simple **Apply** button which does not redirect externally.
-2. Read the post and run the fit, duplicate and daily-limit checks in `AGENTS.md`. Apply may submit at once, so before the first Apply click of the session show the job and the profile details Naukri will send, and wait for `ok`.
-3. Click Apply. Often, Naukri auto-submits based on the existing user profile.
-4. If additional questions are prompted, answer using `personal_data/form_answers.md`.
-5. Log the application to `tracking/applied_jobs.csv`.
-6. Wait at least 2 minutes before another Naukri apply.
+1. Read today's daily file and history for scoped duplicates.
+2. Read the full job post and run fit, duplicate, and daily-limit checks from `AGENTS.md`.
+3. Review the exact profile/details that Naukri will send.
+4. **Before the first Apply click that could submit immediately, show the user the job and submitted details and wait for `ok`.**
+5. Click **Apply**.
+6. If additional questions appear, answer only from the authoritative saved data and matching contextual answers.
+7. Compare any prefilled factual values before final submission.
+8. Confirm success from Naukri.
+9. Append the result immediately to today's daily Markdown file.
+10. Wait at least 2 minutes before another Naukri submit.
 
 ## Exclusions
-- Skip roles where the required location does not match the user's preferences in `personal_data/profile.md`.
+- Skip roles whose location or work mode does not match the authoritative values in `profile.md`.
+- Stop Naukri for the day on a daily-limit, unusual-activity, CAPTCHA, authentication, or restriction message and record the dated site stop.

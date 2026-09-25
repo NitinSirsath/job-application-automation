@@ -1,26 +1,31 @@
 # Web Search Discovery Strategy
 
 ## Objective
-Use web search tools to find niche job postings, direct company listings, or hiring posts outside the major platforms.
+Find relevant direct job postings outside the major platforms and continue the discovered job's actual application flow.
 
 ## Search Strategy
-1. Build searches using the **target job titles from `personal_data/profile.md`** and the accepted locations/work modes from the same file.
-2. Target common ATS pages with queries such as:
-   `site:boards.greenhouse.io "<target job title from profile.md>" "<location from profile.md>"`
-   `site:jobs.lever.co "<target job title from profile.md>" "<location from profile.md>"`
-3. Search hiring posts on relevant platforms using the same target job titles from `profile.md`.
-4. Target niche job boards that match the user's preferences.
+1. Build searches from target job titles, accepted locations, and work modes in `personal_data/profile.md`.
+2. Prefer direct ATS/application pages such as Greenhouse, Lever, Ashby, and Workday.
+3. Avoid aggregators that merely redirect back to LinkedIn or Indeed.
+4. Do not require saved company career URLs for discovery.
 
 ## Execution Flow
-1. Execute search queries.
-2. Parse the search results to extract direct application links.
-3. Navigate to the extracted links.
-4. Read the job post and run the fit and duplicate checks in `AGENTS.md`.
-5. If it's a standard ATS (Greenhouse, Lever) or Workday, follow the respective strategy guide in `instructions/`.
-6. Answer from `personal_data/form_answers.md`; otherwise skip and log.
-7. Before the first submit of the session, show the filled answers and wait for `ok`.
-8. Apply and log to `tracking/applied_jobs.csv`.
-9. Wait at least 2 minutes before another submit in the discovery/company-direct workflow.
+1. Execute discovery searches.
+2. Open a discovered job and inspect the actual job page.
+3. Run fit, duplicate, and daily-limit checks.
+4. **Continue this exact discovered job** rather than restarting a different strategy's search.
+5. If the application is a Workday form, continue with `instructions/platforms/workday_strategy.md` starting at the current job. Count it as workday.
+6. If the application is Greenhouse, Lever, Ashby, or another supported direct ATS, continue with `instructions/advanced_strategies/company_direct_apply.md` starting at the current job.
+7. If the site is another supported application flow, inspect the current page and use the closest existing strategy without inventing UI behavior.
+8. Compare prefilled factual values with `personal_data/profile.md`.
+9. Answer questions only from saved answers whose context matches.
+10. If required information is missing, record `needs_user` and save the exact question under `## Learned Answers` when the user answers it.
+11. Before the session's first submit-capable action, show the exact filled answers/pitch and wait for `ok`.
+12. Confirm success from the actual site.
+13. Append the outcome immediately to today's daily Markdown file.
+14. Wait at least 2 minutes between submits in the combined company-direct/discovery workflow.
 
 ## Exclusions
-- Avoid aggregators that just loop you back to LinkedIn or Indeed. Focus on direct ATS links.
+- Do not restart the search after a discovered job has been opened.
+- Do not require a saved career URL for a discovered direct application.
+- Avoid aggregators that do not lead to a direct application path.

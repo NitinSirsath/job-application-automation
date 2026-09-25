@@ -1,43 +1,62 @@
 # AI-Native Job Application Framework
 
-Welcome to the AI-Native Job Application Framework! This repository contains zero executable code. It consists entirely of structured markdown prompts, configuration templates, and tracking files designed to instruct an AI agent equipped with browser automation and web search to apply for jobs on your behalf.
-
-Works for any role; set your target job titles during setup.
+This repository contains zero executable code. It is a small set of Markdown instructions, local personal-data files, setup state, account records, and daily application records for an AI agent with browser automation.
 
 ## 🚀 Workflow
 
-1. **Download the repository folder.**
-2. **Open the folder in your AI app** with its browser tool turned on.
+1. Download the repository folder.
+2. Open the folder in Codex, Claude Code, Antigravity, or another supported AI app with browser access.
 3. Type `start`.
-4. Answer the setup questions one topic at a time. The agent saves your answers into the personal files and creates the tracking files.
-5. Sign in to the job sites you selected in the agent's browser.
-6. When setup is complete, the agent gives a model suggestion.
-7. **Open a new chat on the suggested model and type `start`.**
-8. The agent applies only to sites listed under **Where to apply** in `personal_data/profile.md`, using the matching strategy file and the project's daily limits.
+4. The agent creates missing personal-data files from the committed templates and guides setup one topic at a time.
+5. Setup is resumable: answers are saved immediately, skipped optional values are stored as `None`, and a local `setup_checklist.md` is only a progress aid.
+6. The agent verifies the real files before allowing applications.
+7. After setup, choose today's platforms and requested application counts. Supported choices are LinkedIn, Indeed, Naukri, Wellfound, Instahyre, Workday, company career pages, and web discovery.
+8. Today's plan and every outcome are stored in exactly one file: `applied/YYYY-MM-DD/applications.md`.
+9. The agent applies one job at a time, uses the platform strategy files, respects the hard daily limits, pauses for the first-submit `ok` approval, and records confirmation only after the site shows it.
+10. A later session on the same local date resumes the same daily file instead of creating another tracker.
+11. When a real model handoff is needed, all progress is already saved in the local files.
 
-Job sites limit automated applying by volume and speed, so this framework enforces strict daily limits.
+The legacy `tracking/applied_jobs.csv`, when present, is read-only history. The separate `tracking/created_accounts.csv` remains the account record for reusable company-portal accounts. New applications are never written back to the CSV tracker.
 
-On Claude, you will be asked to approve each submit.
+## 📁 Key files
 
----
+- `AGENTS.md` — authoritative workflow and safety rules.
+- `CLAUDE.md` — imports `AGENTS.md`.
+- `personal_data/profile_template.md` — authoritative profile/job-preference template.
+- `personal_data/form_answers_template.md` — reusable and contextual screening-answer template.
+- `personal_data/credentials_template.md` — company-portal credential template.
+- `instructions/platforms/` — platform strategies, including Instahyre.
+- `instructions/advanced_strategies/` — company-direct and discovery flows.
+- `setup_checklist.md` — local ignored setup progress created at runtime.
+- `applied/YYYY-MM-DD/applications.md` — one local-date application record created at runtime.
+- `tracking/created_accounts.csv` — local company account record.
+- `tracking/applied_jobs.csv` — legacy read-only history, if present.
 
-## 🤖 AI Model Selection Guide
+## 🧭 Daily limits
 
-Do not hard-code model names or versions. The right model lineup changes over time.
+- LinkedIn: 20
+- Indeed: 20
+- Naukri: 25
+- Wellfound: 10
+- Instahyre: 10
+- Workday: 5
+- company_direct + discovery combined: 10
+- all platforms combined: 50
 
-The AI works out which app and model it is running on and suggests models from that same vendor's CURRENT lineup, using its own knowledge or the app's model picker.
+User-requested counts and lower user limits are respected. Counts reset by local date, while duplicate history remains available across earlier daily files and any legacy CSV.
 
-**Fast / light tier:**
-- LinkedIn, Indeed, Naukri, and Wellfound quick apply.
+## 🤖 Model guidance
 
-**Mid tier:**
-- Workday, company direct apply, and discovery mode.
+Model names and versions are intentionally not hard-coded.
 
-**Default / strongest tier:**
-- Setup and initial personal-data configuration.
+- **Strongest/current-vendor tier:** setup.
+- **Light/current-vendor tier:** LinkedIn, Indeed, Naukri, Wellfound, Instahyre quick applications.
+- **Medium/current-vendor tier:** Workday, company direct, and discovery.
 
-At `START`, if the current model is heavier than the task needs, use a lighter model from the same vendor. If it is too light for Workday or direct apply, use the mid tier.
+The agent recommends a tier from the same vendor and asks the user to select it when a change is needed. It should not pretend to switch models itself or force a new chat unless a real handoff is necessary.
 
-If the same form step fails on 3 jobs in a row, stop that workflow and suggest switching to the mid tier.
+## 🔒 Practical safeguards
 
-Start a **NEW chat** after setup instead of switching models mid-chat. All answers are saved in files, so nothing is lost.
+The workflow keeps fit checks, scoped duplicate checks, no-guessing rules, prefilled-data verification, first-submit approval, additional host-app approvals, two-minute same-platform pacing, CAPTCHA/security stop rules, unsupported-upload handling, account-record reuse, and confirmation-before-success.
+
+No live application testing is claimed by this repository update.

@@ -1,12 +1,22 @@
 # Standard Application Credentials
 
-> **Instructions:** Copy this file to `credentials.md`. This file is ignored by Git to protect your privacy.
+> **Instructions:** Copy this file to `credentials.md`. This file is ignored by Git to protect privacy.
 
-When an ATS (like Workday or a custom company portal) forces you to create an account to apply, the AI Agent needs a standard password to use so it doesn't get blocked.
+Use this information only for company-portal or ATS accounts when the current application requires account creation. Do not use the password for banking, primary email, or other sensitive accounts.
 
-Some apps (like Claude) will ask you to do the sign-in step yourself.
+- **Standard Application Email:** [Same as the email in profile.md]
+- **Standard Application Password:** [Enter a strong unique password for job-application portals]
 
-- **Standard Application Email:** [Same as the email in your profile.md, e.g., your.name@gmail.com]
-- **Standard Application Password:** [Enter a strong, standard password here. Example: Apply2024!Secure$]
+## Account Record Readiness
 
-*Security Note: Do NOT use a password here that you use for your personal banking, primary email, or any sensitive accounts. Use a unique password specifically generated for job application portals.*
+The reusable record for company-portal accounts remains separate in:
+
+`tracking/created_accounts.csv`
+
+The account record header is:
+
+`"date","company","portal_url","login_email","password","email_verified"`
+
+Before creating a new portal account, check that record first. Never repeat any password in `applied/YYYY-MM-DD/applications.md`.
+
+Some apps may require the user to sign in or verify email in the current tab. When that happens, use the documented `done` fallback and resume.

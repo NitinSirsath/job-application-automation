@@ -4,236 +4,392 @@ All paths in this project are relative to this folder, not the computer's root.
 
 This repository is a markdown-only job application framework. The AI agent uses the files in this folder as its instructions and personal-data source while applying through the browser tool.
 
-## 1. Modes
+## 1. Operating model
 
-### SETUP mode
+Use three modes:
 
-Run SETUP mode when any of these is missing or still contains bracketed placeholder text (ignore the `## Learned Answers` section):
-- `personal_data/resume.pdf`
-- `personal_data/profile.md`
-- `personal_data/form_answers.md`
+- **SETUP** — create and complete the reusable personal files. Never apply for jobs in this mode.
+- **PLAN** — after setup is complete, collect today's platforms and requested counts, create or resume today's application record, and verify any conditional prerequisites.
+- **START** — runs when the user types `start` and setup plus today's plan are ready. Apply one job at a time and append the outcome immediately.
 
-Work with the user one topic at a time, in this order:
-1. Resume
-2. Basic information
-3. Job search preferences
-4. Where to apply
-5. Common screening answers
-6. Application password
+Never run SETUP, collect personal information, or submit applications merely because this repository is being edited. These instructions are the product itself.
 
-Save each answer to its file immediately before moving to the next topic:
-- Resume: make sure `personal_data/resume.pdf` exists.
-- Basic information: update `personal_data/profile.md`.
-- Job search preferences: update `personal_data/profile.md`.
-- Where to apply: update the **Where to apply** field in `personal_data/profile.md`.
-- Common screening answers: update `personal_data/form_answers.md`.
-- Application password: update `personal_data/credentials.md`.
+## 2. State files and authority
 
-Basic information covers Basic Information, Links, Professional Details and Pitch / Summary in profile.md. Common screening answers covers every section of form_answers.md except Learned Answers. If the user skips or has no value for a field, write None. Setup is complete only when no [brackets] remain in profile.md and form_answers.md.
+### Personal data
+- `personal_data/resume.pdf` — the user's current resume.
+- `personal_data/profile.md` — the **authoritative source** for identity, contact details, employment, education, salary facts, notice period, job preferences, work modes, locations, relocation, and work authorization/sponsorship.
+- `personal_data/form_answers.md` — reusable common screening answers plus contextual answers that are only reusable when their recorded context matches.
+- `personal_data/credentials.md` — reusable company-portal credential information. Never copy passwords into application reports.
 
-Ask the user to sign in to each selected job site in the browser the agent uses.
+If two sources disagree about the same factual field, do not choose one silently. Mark the job `needs_user`, ask the user to resolve the conflict, and save the resolved answer immediately to the authoritative source.
 
-Create these tracking files if they are missing, using the exact headers and rules in the **Tracking files** section below.
+### Runtime records
+- `setup_checklist.md` — local, ignored setup progress. It is a convenience aid, not proof that setup is complete.
+- `applied/YYYY-MM-DD/applications.md` — the single live application record for that local date.
+- `tracking/created_accounts.csv` — the existing separate account record for reusable company-portal accounts. Keep it separate from application reports and never repeat passwords in daily records.
+- `tracking/applied_jobs.csv` — legacy application history only. If present, treat it as read-only input. Never append new applications to it, delete it, or migrate it destructively.
 
-When setup is complete, give the model suggestion described in **Model suggestions** and then say exactly:
+The live application source of truth for NEW records is always the daily Markdown file.
 
-"Setup done. Open a new chat on the suggested model and type start."
+## 3. SETUP mode — resumable, one topic at a time
 
-Do not begin job applications during SETUP mode.
+Run SETUP when the required personal files are missing or still contain bracketed placeholder text. Do not treat the `Where to Apply` planning choice as a SETUP completeness requirement because PLAN collects the live daily plan afterward.
 
-### START mode
+Before setup begins, recommend the strongest/current-vendor tier. Do not hard-code a model name or version and do not claim the agent can switch itself.
 
-START mode runs only when the user types `start` and setup is complete (ignore the `## Learned Answers` section).
+### Create missing files first
+1. Create `personal_data/profile.md` from `personal_data/profile_template.md` if missing.
+2. Create `personal_data/form_answers.md` from `personal_data/form_answers_template.md` if missing.
+3. Create `personal_data/credentials.md` from `personal_data/credentials_template.md` if missing.
+4. Create `setup_checklist.md` from the checklist below if missing.
+5. Never replace a completed file with a fresh copy. Preserve existing answers and learned answers.
 
-For each site listed under **Where to apply** in `personal_data/profile.md`, use that site's strategy file:
-- LinkedIn → `instructions/platforms/linkedin_strategy.md`
-- Indeed → `instructions/platforms/indeed_strategy.md`
-- Naukri → `instructions/platforms/naukri_strategy.md`
-- Wellfound → `instructions/platforms/wellfound_strategy.md`
-- Workday → `instructions/platforms/workday_strategy.md`
-- company_direct → `instructions/advanced_strategies/company_direct_apply.md`
-- discovery → `instructions/advanced_strategies/web_search_discovery.md`
+### Collect setup topics in this order
+Ask one topic at a time and save the answer immediately before moving on:
 
-Before browsing for applications, read:
-- `personal_data/profile.md`
-- `personal_data/form_answers.md`
-- `personal_data/credentials.md`
-- `tracking/applied_jobs.csv`
-- `tracking/created_accounts.csv`
+1. **Resume** — ask for the resume file or a local path. Copy it to exactly `personal_data/resume.pdf`. Do not invent a resume path. If the environment cannot access the path, ask the user to provide/upload the file through the current app.
+2. **Basic/contact information** — names, email, phone, location, and address when needed.
+3. **Employment and education** — current role, total experience, employment history, education, core stack, notice period, and salary with amount, currency, and period.
+4. **Work authorization** — country/countries, work authorization, and sponsorship now/future.
+5. **Job preferences** — target titles, locations, work modes, relocation preference, skip companies, and company career URLs.
+6. **Common screening answers** — populate reusable answers in `form_answers.md`.
+7. **Credential readiness** — prepare the standard application credential only when needed for later company-portal use. Reusable account records remain in `tracking/created_accounts.csv`.
 
-Apply only when the fit check passes, no duplicate exists, and the relevant daily limits allow the application.
+For every topic, inspect the existing files first. Never ask a question whose answer is already present.
 
-Before the first submit of each START session, show the user the filled answers that will be submitted and wait for the user to reply `ok`. After that approval, continue on its own.
+### Optional answers
+An optional answer may be stored as `None`. `None` means “unavailable / not provided”; it is never a value to submit into a required application field.
 
-At the end of the session, report what was applied and what was skipped. For every skipped or `needs_user` job, include the reason or unanswered question. Ask the user any questions that could not be answered from the saved files. Save each answer the user gives under `## Learned Answers` in `personal_data/form_answers.md` right away.
+When the user skips a value:
+- save `None` immediately;
+- mark the corresponding optional checklist item as skipped;
+- do not ask the same question again;
+- never turn `None` into a guessed answer later.
 
-## 2. Daily limits
+### Setup checklist
+Create `setup_checklist.md` with this exact checklist when it does not exist:
 
-Hard maximum applications per day:
+- [ ] Resume file copied to `personal_data/resume.pdf`
+- [ ] Basic/contact information complete
+- [ ] Employment history and current role complete
+- [ ] Education complete
+- [ ] Salary facts complete or explicitly `None` where optional
+- [ ] Notice period complete
+- [ ] Work authorization and sponsorship complete in `profile.md`
+- [ ] Job titles, locations, work modes, relocation, and skip-company preferences complete
+- [ ] `personal_data/form_answers.md` created and common screening answers reviewed
+- [ ] Optional unanswered items explicitly stored as `None`
+- [ ] Conditional credential readiness recorded when a selected plan later requires it
+
+The checkboxes never prove readiness by themselves.
+
+### Actual setup verification on every `start`
+Before allowing PLAN or START, verify all of the following from the actual files:
+
+- `personal_data/resume.pdf` exists and is non-empty.
+- `personal_data/profile.md` exists and contains no unresolved `[bracketed placeholders]` in required fields.
+- `personal_data/form_answers.md` exists and contains no unresolved bracketed placeholders in required fields.
+- Required factual values are present in their authoritative source, or an optional field is explicitly `None`.
+- `setup_checklist.md` may contain stale checkboxes; the actual files above are authoritative.
+- If a later application plan needs company-portal credentials, verify `personal_data/credentials.md` is ready before the first such application.
+- If an existing `tracking/created_accounts.csv` exists, verify it can be read before creating a new company account.
+
+If any required setup item is incomplete, resume SETUP at the first unfinished topic. Do not begin applications.
+
+When SETUP is complete, do not force a new chat. Recommend the strongest/current-vendor tier for setup if appropriate. Continue in the current chat unless a real handoff is necessary.
+
+## 4. PLAN mode — choose today's application plan
+
+After setup is complete, ask which platforms to use and how many applications to attempt on each platform.
+
+Supported choices:
+- LinkedIn
+- Indeed
+- Naukri
+- Wellfound
+- Instahyre
+- Workday
+- company career pages (`company_direct`)
+- web discovery (`discovery`)
+
+For quick-apply platforms, offer 10 or 15 as convenient starting counts when the limits permit. For `company_direct`, require company career URLs from `personal_data/profile.md`. `discovery` does not require saved career URLs.
+
+For each selected platform:
+- ask for the requested application count;
+- respect any lower user limit already stored in `profile.md`;
+- never exceed the hard limits in this file;
+- save today's platform plan and current progress in `applied/YYYY-MM-DD/applications.md`.
+
+Use the user's local date, not UTC.
+
+If today's file already exists, resume it instead of creating a second file or asking for the plan again unless the user wants to change the plan.
+
+### Daily file layout
+
+Use exactly one file:
+
+```
+applied/
+  YYYY-MM-DD/
+    applications.md
+```
+
+Inside that file, use platform sections. Do not create separate application files by platform or session.
+
+Start the file with:
+
+```md
+# Applications — YYYY-MM-DD
+
+## Application Plan
+
+| Platform | Requested | Applied | Skipped | Needs User |
+| --- | ---: | ---: | ---: | ---: |
+| linkedin |  | 0 | 0 | 0 |
+| indeed |  | 0 | 0 | 0 |
+| naukri |  | 0 | 0 | 0 |
+| wellfound |  | 0 | 0 | 0 |
+| instahyre |  | 0 | 0 | 0 |
+| workday |  | 0 | 0 | 0 |
+| company_direct |  | 0 | 0 | 0 |
+| discovery |  | 0 | 0 | 0 |
+
+## Site Stops
+
+- None
+
+## linkedin
+
+## indeed
+
+## naukri
+
+## wellfound
+
+## instahyre
+
+## workday
+
+## company_direct
+
+## discovery
+```
+
+Update the plan counts as outcomes are appended. Do not reset earlier entries.
+
+For each job, append immediately after the outcome:
+
+```md
+### HH:MM:SS — Company — Job Title
+- Local date/time:
+- Platform:
+- Company:
+- Job title:
+- Location:
+- Work mode:
+- Job URL:
+- Job ID (company/portal scoped):
+- Resume filename:
+- Submitted answers:
+  - Question: Answer
+- Status: applied | skipped | needs_user
+- Confirmation shown:
+- Skip reason / unanswered question / next action:
+```
+
+For `applied`, populate the actual confirmation shown by the site. Never invent a confirmation.
+
+For `skipped` and `needs_user`, populate the reason or unanswered question/next action. If a site stop occurs, also add a dated entry under **Site Stops** such as `- 16:10 — linkedin — site stopped: CAPTCHA`.
+
+The daily file is the single destination for all NEW application records.
+
+## 5. Daily limits, counting, duplicates, retries, and midnight
+
+Hard maximum applications per local day:
 - LinkedIn: 20
 - Indeed: 20
 - Naukri: 25
 - Wellfound: 10
 - Workday: 5
+- Instahyre: 10
 - company direct + discovery combined: 10
-- all sites combined: 50
+- all platforms combined: 50
 
-The user may set LOWER limits in `personal_data/profile.md`, never higher. If the profile asks for a higher limit, use the hard maximum and tell the user.
+Requested session counts and lower user-defined limits must also be respected.
 
 Before EVERY application:
-1. Count today's rows with status `applied` in `tracking/applied_jobs.csv` for that platform.
-2. Count today's rows with status `applied` across all platforms.
-3. For company direct and discovery, enforce their combined total.
-4. If the relevant limit is reached, stop that platform for today and tell the user.
+1. Re-read today's daily file.
+2. Recount today's `applied` outcomes for the platform.
+3. Recount today's all-platform `applied` outcomes.
+4. Recount company_direct + discovery together.
+5. Re-check the user's requested count for that platform.
+6. Re-check the current local date/time. If the date crossed midnight, stop using the old day's limits and create/resume the new date's file.
+7. Check today's Site Stops. Do not use a stopped site again that day.
 
-Never skip these checks, even if the user asks.
+Do not count the same application twice. The preferred application key is:
+`local date + platform + company + portal + job_id`.
+If a reliable job ID is unavailable, use `local date + platform + company + job title + job URL`.
 
-Apply like a person:
-- Work on one job at a time.
-- Read the job post before applying.
-- Never submit in rapid bursts.
-- Leave at least 2 minutes between submits on the same site.
+For duplicate/retry decisions, inspect all available daily files plus the legacy CSV:
+- `applied` or `skipped` means do not apply again for that job.
+- `needs_user` is retryable after the unanswered question has been resolved.
+- A matching application already represented in both the daily file and legacy CSV counts once, not twice.
 
-If a job site shows a daily-limit, unusual-activity, CAPTCHA, security check (such as 'verify you are human'), or restriction message, stop that site for today and tell the user.
+Preserve existing CSV history as read-only input. Never delete it and never write new rows to it.
 
-A CAPTCHA on one employer's own form skips that job only; it does not stop the whole site.
-
-Never attempt to bypass a CAPTCHA or 2FA challenge.
-
-An email verification link for a new account is not a stop; use the fallback in section 5.
-
-When you stop a site, log a `skipped` row with notes `site stopped: <message>`. At START, do not use a site that has such a row dated today.
-
-## 3. Fit, duplicates, and answers
+## 6. Fit checks, duplicates, and factual answers
 
 ### Fit check
-
 Apply only when:
-- the job title matches the target job titles in `personal_data/profile.md`;
-- the location matches the locations accepted in `personal_data/profile.md`;
-- the work mode is one of the accepted work modes in `personal_data/profile.md`;
-- the required years of experience are compatible with the user's experience in `personal_data/profile.md`;
-- the company is not on the companies-to-skip list.
+- job title matches target titles;
+- location matches accepted locations;
+- work mode matches the authoritative `profile.md` value;
+- required years of experience are compatible;
+- company is not on the skip list.
 
-If the fit check fails, skip the job and log it as `skipped` with the reason.
+If fit fails, log `skipped` immediately with the reason.
 
 ### Duplicate check
-
-Skip a job when:
-- its `job_id` is already logged as `applied` or `skipped` (a `needs_user` job may be retried once its question has an answer); or
-- the same company and job title are already marked `applied`.
+Skip when the same job is already `applied` or `skipped` in historical daily records or legacy history. A `needs_user` record may be retried after its blocker is answered.
 
 ### Never guess
-
-Answer only from:
+Use factual information only from:
 - `personal_data/profile.md`
 - `personal_data/form_answers.md`
-- the user's resume
+- the user's resume.
 
-If a required question is not covered:
-1. Do not guess.
-2. Skip the job.
-3. Log it with status `needs_user`.
-4. If it is not already there, add the question under `## Learned Answers` as `- **<question>:**` with nothing after the colon (no brackets).
+Before submission, compare any prefilled, parsed, or portal-supplied factual information against the saved authoritative data. If it differs materially, correct it from the authoritative source or mark `needs_user`; do not silently accept or overwrite user facts.
 
-Never submit text that still contains square-bracket placeholders or placeholder text such as `X years`.
+For contextual questions:
+- save employer-, country-, role-, or portal-specific answers with explicit context;
+- reuse a contextual answer only when the context recorded for it matches the current application;
+- do not turn one employer's or country's answer into a global answer automatically;
+- if the question is required and no matching answer exists, do not guess. Log `needs_user`.
 
-## 4. Model suggestions
+Store new unanswered questions under `## Learned Answers` in `form_answers.md` immediately after the user answers them. Include the relevant context and the exact question.
 
-Do not hard-code specific model names or versions anywhere. Model names and versions change.
+Never submit square-bracket placeholders, sample values, or guessed years.
 
-The AI works out which app and model it is running on and suggests models from that same vendor's CURRENT lineup, using its own knowledge or the app's model picker.
+## 7. Submission safeguards
 
-Tiers:
-- Fast/light tier: LinkedIn, Indeed, Naukri, and Wellfound quick apply.
-- Mid tier: Workday, company direct apply, and discovery mode.
-- Default/strongest tier: SETUP.
+- Apply one job at a time.
+- Read the job post before applying.
+- Perform fit and scoped duplicate checks before opening account-creation flows.
+- Before the first action in the session that can submit an application, show the user the exact job plus the filled answers/pitch that will be submitted and wait for the user to reply exactly `ok`.
+- This approval gate applies before Naukri's potentially instant **Apply** click.
+- Continue honoring any additional approval required by the host application.
+- After the first approval, still review each application's final values before submission.
+- Submit one application at a time.
+- Leave at least two minutes between submits on the same platform/workflow.
+- Record `applied` only after the site shows confirmation.
+- If a site asks the user to upload a file manually because automated upload is unsupported, ask the user to upload `personal_data/resume.pdf` in the current tab, wait for `done`, then verify the upload before continuing.
+- If a form is broken or keeps failing after two tries, log it as `skipped` with the reason and continue.
+- Never bypass CAPTCHA, anti-bot, 2FA, or security checks.
 
-At START:
-- If the current model is heavier than the task needs, suggest a lighter model from the same vendor.
-- If the current model is too light for Workday or direct apply, suggest the mid tier from the same vendor.
+### Site-stop and retry rules
+If a site shows a daily-limit, unusual-activity, CAPTCHA, security check, or restriction message:
+- stop that site for the day;
+- log the dated stop under **Site Stops** and add a `skipped` record with notes `site stopped: <message>`;
+- do not retry that site later the same day.
 
-If the same form step fails on 3 jobs in a row, stop that workflow and suggest switching to the mid tier from the same vendor.
+A CAPTCHA on an employer's own form skips that job only unless the employer portal itself blocks further use.
 
-After setup, suggest starting a NEW chat on the suggested model instead of switching models mid-chat. All answers are saved in files, so nothing is lost.
-
-## 5. Logins and account creation
-
-The AI signs in and creates accounts itself using `personal_data/credentials.md` when its app allows it.
-
-credentials.md is only for company portals (Workday, custom ATS). If LinkedIn, Indeed, Naukri or Wellfound is signed out, use the fallback message below.
-
-Fallback only when the app blocks it, for example when the app will not type passwords or create accounts:
-
+Email verification required to continue is not a permanent stop. Use:
 "Please sign in / create the account / click the email verification link in this tab, then reply done"
 
-Pause until the user replies `done`, then continue.
+Continue only after the user replies `done`.
 
-For selected job sites, the user signs in during SETUP in the agent's browser.
+## 8. Model guidance
 
-## 6. Tracking files
+Never hard-code model names or versions.
 
-SETUP creates `tracking/` and both files if they are missing.
+Tiers:
+- **Strongest/current-vendor tier:** SETUP.
+- **Light/current-vendor tier:** LinkedIn, Indeed, Naukri, Wellfound, and Instahyre quick applications.
+- **Medium/current-vendor tier:** Workday, company direct, and discovery.
 
-### `tracking/applied_jobs.csv`
+When a tier matters:
+- recommend the appropriate tier from the same vendor the user is already using;
+- ask the user to select/switch to that tier when needed;
+- never pretend that the agent changed its own model.
 
-Header:
+Do not force a new chat merely because a different tier is preferred. If a handoff is genuinely needed, save all progress to the local files first and explain exactly how to resume.
 
-`"date","time","platform","company","job_title","job_id","job_url","status","notes"`
+If the same form step fails on three jobs in a row, stop that workflow and recommend the medium tier from the same vendor.
 
-date is the local date as YYYY-MM-DD. time is local 24-hour HH:MM:SS. platform is exactly one of: linkedin, indeed, naukri, wellfound, workday, company_direct, discovery. Any Workday form counts as workday, however it was found.
+## 9. Logins and account creation
 
-Allowed status values:
-- `applied`
-- `skipped`
-- `needs_user`
+Keep the existing separate account record for reusable company-portal accounts:
 
-Every field must be enclosed in double quotes.
-
-Write `"applied"` only after the site shows its confirmation.
-
-The `notes` field contains the skip reason or unanswered question.
-
-### `tracking/created_accounts.csv`
+`tracking/created_accounts.csv`
 
 Header:
 
 `"date","company","portal_url","login_email","password","email_verified"`
 
-Log newly created company accounts immediately.
+Before creating a Workday or other company account, check this file first. If a record for that company exists, use **Sign In** instead of creating another account.
 
-Before creating a Workday or other company account, check this file first. If an account for that company already exists, use **Sign In** instead of creating another account.
+`credentials.md` is for reusable standard company-portal credentials. Daily application reports must never contain passwords.
 
-## 7. Submission behavior
+If the browser/app blocks automated sign-in or account creation, use:
+"Please sign in / create the account / click the email verification link in this tab, then reply done"
 
-Before the first submit of each session, show the filled answers and wait for `ok`.
+Pause until `done`.
 
-After approval:
-- submit one application at a time;
-- write the tracking row only after confirmation;
-- respect all daily limits and the 2-minute same-site gap;
-- stop a site immediately when its restriction or daily-limit message appears.
+## 10. Platform and strategy routing
 
-If a form is broken or keeps failing after 2 tries, skip the job, log it as skipped with the reason, and move on.
+For each selected platform, read its strategy file before browsing.
 
-Do not submit on jobs that fail the fit check, duplicate check, or answer requirements.
+- LinkedIn → `instructions/platforms/linkedin_strategy.md`
+- Indeed → `instructions/platforms/indeed_strategy.md`
+- Naukri → `instructions/platforms/naukri_strategy.md`
+- Wellfound → `instructions/platforms/wellfound_strategy.md`
+- Instahyre → `instructions/platforms/instahyre_strategy.md`
+- Workday → `instructions/platforms/workday_strategy.md`
+- company_direct → `instructions/advanced_strategies/company_direct_apply.md`
+- discovery → `instructions/advanced_strategies/web_search_discovery.md`
 
-## 8. Strategy files
+Strategy files never override the rules in this file.
 
-Follow the relevant platform or advanced-strategy file for search and form flow. The strategy files never override the rules in this file.
+### Workday classification
+Any application that uses a Workday application form counts as **workday**, regardless of whether the job was found through Workday search, discovery, a company URL, or another source.
 
-## 9. File references
+### Discovery handoff
+Discovery must continue the currently discovered job's application flow:
+- do not restart another platform's search;
+- do not require a saved career URL just because the job was discovered on the web;
+- if the discovered application is Workday, continue the Workday form at the current job and count it as workday;
+- if the discovered application is Greenhouse, Lever, Ashby, or another supported direct ATS, continue the company-direct form flow at the current job;
+- otherwise inspect the actual current page and use the closest supported form flow without inventing UI behavior.
 
-The active instruction files are:
-- `AGENTS.md`
-- `CLAUDE.md`
-- `instructions/platforms/linkedin_strategy.md`
-- `instructions/platforms/indeed_strategy.md`
-- `instructions/platforms/naukri_strategy.md`
-- `instructions/platforms/wellfound_strategy.md`
-- `instructions/platforms/workday_strategy.md`
-- `instructions/advanced_strategies/company_direct_apply.md`
-- `instructions/advanced_strategies/web_search_discovery.md`
-- `personal_data/profile_template.md`
-- `personal_data/form_answers_template.md`
-- `personal_data/credentials_template.md`
+## 11. End-of-session behavior
+
+At the end of a session:
+- summarize today's outcomes from the daily file;
+- include applied, skipped, and needs_user jobs;
+- include any site stops;
+- ask the user unresolved questions;
+- when the user answers a new question, save it immediately under `## Learned Answers`.
+
+Never create a second daily application file for another session on the same local date.
+
+## 12. Walkthrough checklist for verification
+
+The instructions must support these scenarios without contradictions:
+
+1. **Fresh setup** — missing files are created, resume is copied, topics are collected one at a time, and no applications start before verification.
+2. **Interrupted setup** — existing answers and checklist state are preserved and SETUP resumes at the first unfinished topic.
+3. **Skipped optional fields** — `None` is stored once and does not cause a setup loop.
+4. **First instant-submit application** — preview + `ok` happens before a submit-capable click, including Naukri Apply.
+5. **Unsupported upload** — user uploads in the current tab, replies `done`, and the file is verified.
+6. **Discovery into Lever** — the discovered Lever form is continued directly using the company-direct form rules; no saved career URL is required.
+7. **Discovery into Workday** — continue the current Workday form and count it as workday.
+8. **Context-specific unanswered question and later retry** — the unanswered question becomes `needs_user`, gets stored with context after the user answers, and the same job may then be retried.
+9. **Two sessions on one date** — both sessions write to the same daily file.
+10. **New local date/midnight** — a new date file is used for limits while historical duplicate checks remain active.
+11. **Partly used limits + site stop** — counts and dated stop records persist in today's file.
+12. **Existing CSV history** — legacy rows are read for duplicate/count context but never modified and never double-counted.
+13. **New-chat/model handoff** — all progress is saved first; the user can resume without repeating completed setup or today's plan.
+
+Do not claim live application testing. These walkthroughs are static instruction/workflow checks unless an actual browser session is separately performed.
