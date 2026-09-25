@@ -1,34 +1,43 @@
 # AI-Native Job Application Framework
 
-Welcome to the AI-Native Job Application Framework! This repository contains zero executable code. It consists entirely of structured markdown prompts, configuration templates, and tracking files designed to instruct an Advanced AI Agent (equipped with browser automation and web search) to apply for jobs on your behalf.
+Welcome to the AI-Native Job Application Framework! This repository contains zero executable code. It consists entirely of structured markdown prompts, configuration templates, and tracking files designed to instruct an AI agent equipped with browser automation and web search to apply for jobs on your behalf.
 
 This framework is tailored for Software Engineers (specifically Frontend/React developers) but is easily adaptable for any role.
 
 ## 🚀 Workflow
 
-1. **Clone the repository.**
-2. **Setup your Personal Data:**
-   - Go to the `/personal_data` directory.
-   - Copy `profile_template.md` to `profile.md`.
-   - Copy `form_answers_template.md` to `form_answers.md`.
-   - Copy `credentials_template.md` to `credentials.md`.
-   - Fill out the newly created files with your actual details. (These files are ignored by git to protect your privacy).
-   - Ensure your resume is placed as `/personal_data/resume.pdf`.
-3. **Configure the AI Agent:**
-   - Edit the `🚀_ENTRY_PROMPT.md` file to set your session goal (e.g., apply on specific platforms, use discovery mode).
-4. **Launch the Agent:**
-   - Point your AI Agent (capable of reading files and browser automation) to `🚀_ENTRY_PROMPT.md` and start the run!
+1. **Download the repository folder.**
+2. **Open the folder in your AI app** with its browser tool turned on.
+3. Type `start`.
+4. Answer the setup questions one topic at a time. The agent saves your answers into the personal files and creates the tracking files.
+5. Sign in to the job sites you selected in the agent's browser.
+6. When setup is complete, the agent gives a model suggestion.
+7. **Open a new chat on the suggested model and type `start`.**
+8. The agent applies only to sites listed under **Where to apply** in `personal_data/profile.md`, using the matching strategy file and the project's daily limits.
+
+Job sites limit automated applying by volume and speed, so this framework enforces strict daily limits.
+
+On Claude, you will be asked to approve each submit.
 
 ---
 
 ## 🤖 AI Model Selection Guide
 
-When using this framework with an AI coding assistant or agent platform, selecting the right model for the task is crucial for balancing capability, speed, and cost.
+Do not hard-code model names or versions. The right model lineup changes over time.
 
-**When to use Heavy / Reasoning Models (e.g., Gemini Pro, Claude Sonnet, GPT-4o):**
-- Use these models when you are **generating your initial personal data** or **modifying the complex strategy files** in the `/instructions` directory. 
-- Heavy models are better at understanding nuanced instructions, formatting your profile effectively, and planning advanced strategies.
+The AI works out which app and model it is running on and suggests models from that same vendor's CURRENT lineup, using its own knowledge or the app's model picker.
 
-**When to use Fast / Lightweight Models (e.g., Gemini Flash, Claude Haiku, GPT-4o-mini):**
-- **CRITICAL:** You MUST switch to a fast model for the **actual execution/browser automation** phase (when the agent is actively filling out forms and clicking buttons). 
-- Browser automation requires hundreds of sequential steps and DOM inspections. Using a heavy model for this will be incredibly slow and extremely expensive due to token costs. Fast models are perfectly capable of executing the standard application steps defined in this framework.
+**Fast / light tier:**
+- LinkedIn, Indeed, Naukri, and Wellfound quick apply.
+
+**Mid tier:**
+- Workday, company direct apply, and discovery mode.
+
+**Default / strongest tier:**
+- Setup and initial personal-data configuration.
+
+At `START`, if the current model is heavier than the task needs, use a lighter model from the same vendor. If it is too light for Workday or direct apply, use the mid tier.
+
+If the same form step fails on 3 jobs in a row, stop that workflow and suggest switching to the mid tier.
+
+Start a **NEW chat** after setup instead of switching models mid-chat. All answers are saved in files, so nothing is lost.
