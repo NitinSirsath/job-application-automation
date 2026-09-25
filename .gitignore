@@ -8,7 +8,9 @@
 /personal_data/form_answers.md
 /personal_data/credentials.md
 
-# Ignore the tracking folder entirely
+# Ignore local setup state and daily application records
+/setup_checklist.md
+/applied/
 /tracking/
 
 # Ensure templates are committed

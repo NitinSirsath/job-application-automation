@@ -1,28 +1,27 @@
 # Wellfound (AngelList) Application Strategy
 
 ## Objective
-Apply to relevant startup roles on Wellfound by using the platform's pitching system.
+Apply to relevant startup roles on Wellfound using the current application and pitching UI.
 
 ## Search Strategy
-1. Navigate to Wellfound jobs section.
-2. Apply standard role and location filters from `personal_data/profile.md`.
-3. Sort by Newest.
-4. Run the fit check in `AGENTS.md` before applying.
+1. Navigate to Wellfound jobs.
+2. Apply role and location filters from \`personal_data/profile.md\`.
+3. Sort by newest when the current UI supports it.
+4. Run the fit check before applying.
 
 ## Execution Flow
-1. Select a job match.
+1. Read today's daily file and history for scoped duplicates.
 2. Read the complete job post.
-3. Wellfound requires a short "Note" or "Pitch" to the founder/recruiter.
-4. Write a concise 2-3 sentence pitch using only values available in `personal_data/profile.md` and the job post:
-   - Use the target role/job title from the job post.
-   - Use the user's current job title, experience, and core tech stack from `profile.md`.
-   - Use the company name and relevant role details from the job post.
-   - Tailor the pitch to the actual company and role.
-   - Do not invent facts and do not leave placeholders or bracketed text.
-5. Before the first submit of the session, show the filled pitch and other filled answers and wait for `ok`.
-6. Submit the application.
-7. Log the application to `tracking/applied_jobs.csv`.
-8. Wait at least 2 minutes before another submit on Wellfound.
- 
+3. Prepare the short Note/Pitch from facts in \`profile.md\` plus role/company details shown on the current job post.
+4. Compare any prefilled facts with the authoritative profile.
+5. Use contextual answers only when their context matches.
+6. Before the session's first submit-capable action, show the pitch and filled answers and wait for \`ok\`.
+7. Submit.
+8. Confirm success from Wellfound.
+9. Append the outcome immediately to today's daily Markdown file.
+10. Wait at least 2 minutes before another Wellfound submit.
+
 ## Exclusions
-- Do not write long, generic cover letters. Keep the pitch short and tailored to the specific startup and role.
+- Do not write a long generic cover letter.
+- Do not invent startup-specific facts.
+- Stop Wellfound for the day on a restriction, CAPTCHA, unusual-activity, authentication, or daily-limit message and record the dated site stop.

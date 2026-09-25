@@ -1,23 +1,26 @@
 # Indeed Application Strategy
 
 ## Objective
-Apply to relevant roles on Indeed using their Quick Apply system.
+Apply to relevant roles on Indeed using its current quick-apply flow.
 
 ## Search Strategy
-1. Go to Indeed.com.
-2. Search for the **target job titles from `personal_data/profile.md`**.
-3. Filter results by **Date Posted**: Last 24 hours.
-4. Filter by **Easily apply**.
+1. Go to Indeed.
+2. Search for target job titles from \`personal_data/profile.md\`.
+3. Prefer postings from the last 24 hours.
+4. Prefer jobs marked Easily apply when that is the current UI label.
 
 ## Execution Flow
-1. Click through the search results list.
-2. Read the job posting and run the fit check in `AGENTS.md`.
-3. Click **Apply now**.
-4. Use the Indeed easy apply modal. The system often pre-fills data.
-5. For custom employer questions, answer from `personal_data/form_answers.md`; otherwise skip and log.
-6. Review and, after the session's first-submit `ok` approval, submit.
-7. Log the application to `tracking/applied_jobs.csv`.
-8. Wait at least 2 minutes before another submit on Indeed.
+1. Read today's daily file and applicable history for scoped duplicates.
+2. Read the complete job posting and run the fit check in \`AGENTS.md\`.
+3. Start the current Indeed application flow.
+4. Use prefilled data only after comparing factual values with \`profile.md\`.
+5. For employer questions, use matching answers from \`form_answers.md\`; do not guess.
+6. Before the session's first submit-capable action, show the exact filled answers and wait for \`ok\`.
+7. Submit.
+8. Confirm success from the site.
+9. Append the application outcome immediately to today's daily Markdown file.
+10. Wait at least 2 minutes before another Indeed submit.
 
 ## Exclusions
-- If an Indeed application requests a mandatory custom skills test or assessment before submission, skip it.
+- Skip an application that requires a mandatory custom skills test or assessment before submission unless the user has an explicit saved answer/workflow for it.
+- Stop Indeed for the day on a site restriction, CAPTCHA, unusual-activity, authentication, or daily-limit message and record the dated site stop.
