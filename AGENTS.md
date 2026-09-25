@@ -8,7 +8,7 @@ This repository is a markdown-only job application framework. The AI agent uses 
 
 ### SETUP mode
 
-Run SETUP mode when any of these is missing or still contains bracketed placeholder text:
+Run SETUP mode when any of these is missing or still contains bracketed placeholder text (ignore the `## Learned Answers` section):
 - `personal_data/resume.pdf`
 - `personal_data/profile.md`
 - `personal_data/form_answers.md`

@@ -2,7 +2,7 @@
 
 Welcome to the AI-Native Job Application Framework! This repository contains zero executable code. It consists entirely of structured markdown prompts, configuration templates, and tracking files designed to instruct an AI agent equipped with browser automation and web search to apply for jobs on your behalf.
 
-This framework is tailored for Software Engineers (specifically Frontend/React developers) but is easily adaptable for any role.
+Works for any role; set your target job titles during setup.
 
 ## 🚀 Workflow
 
@@ -41,5 +41,3 @@ At `START`, if the current model is heavier than the task needs, use a lighter m
 If the same form step fails on 3 jobs in a row, stop that workflow and suggest switching to the mid tier.
 
 Start a **NEW chat** after setup instead of switching models mid-chat. All answers are saved in files, so nothing is lost.
-
-Works for any role; set your target job titles during setup.
