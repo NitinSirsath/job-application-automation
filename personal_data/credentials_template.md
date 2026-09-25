@@ -4,6 +4,8 @@
 
 When an ATS (like Workday or a custom company portal) forces you to create an account to apply, the AI Agent needs a standard password to use so it doesn't get blocked.
 
+Some apps (like Claude) will ask you to do the sign-in step yourself.
+
 - **Standard Application Email:** [Same as the email in your profile.md, e.g., your.name@gmail.com]
 - **Standard Application Password:** [Enter a strong, standard password here. Example: Apply2024!Secure$]
 
