@@ -36,6 +36,8 @@ The live application source of truth for NEW records is always the daily Markdow
 
 Run SETUP when the required personal files are missing or still contain bracketed placeholder text. Do not treat the \`Where to Apply\` planning choice as a SETUP completeness requirement because PLAN collects the live daily plan afterward.
 
+Before setup begins, recommend the strongest/current-vendor tier. Do not hard-code a model name or version and do not claim the agent can switch itself.
+
 ### Create missing files first
 1. Create \`personal_data/profile.md\` from \`personal_data/profile_template.md\` if missing.
 2. Create \`personal_data/form_answers.md\` from \`personal_data/form_answers_template.md\` if missing.
