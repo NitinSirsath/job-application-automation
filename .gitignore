@@ -8,10 +8,18 @@
 /personal_data/form_answers.md
 /personal_data/credentials.md
 
-# Ignore the tracking folder entirely
-/tracking/
+# Ignore runtime setup state
+/setup_checklist.md
+
+# Ignore runtime application records
+/applied/
+
+# Ignore company account records and legacy application history
+/tracking/created_accounts.csv
+/tracking/applied_jobs.csv
 
 # Ensure templates are committed
 !/personal_data/profile_template.md
 !/personal_data/form_answers_template.md
 !/personal_data/credentials_template.md
+!/setup_checklist_template.md

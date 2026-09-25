@@ -1,42 +1,42 @@
 # Workday Application Strategy
 
 ## Objective
-Successfully navigate and complete the Workday ATS multi-step application processes.
+Complete Workday-hosted application forms while preserving the global fit, duplicate, answer, pacing, confirmation, and daily-limit rules in `AGENTS.md`.
 
-## Understanding Workday
-Workday may require a unique account for every company you apply to. Check the existing account record before creating anything new.
+## Classification
+Any application form hosted by Workday counts as `workday`, regardless of whether the job was found through Workday search, web discovery, LinkedIn, or a company career page.
 
 ## Search Strategy
-1. Web search `site:myworkdayjobs.com "<target job title from profile.md>" "<location from profile.md>"` and open matching posts.
+1. Search for target jobs using the saved titles and locations.
+2. Web search can use queries such as:
+   `site:myworkdayjobs.com "<target job title from profile.md>" "<location from profile.md>"`.
+3. Do not require the user to save career URLs just to discover Workday roles.
 
 ## Execution Flow
-1. Read the job post and run the fit, duplicate and daily-limit checks from `AGENTS.md`. If any fails, skip and log before creating or signing in to an account.
-2. **Check for an existing account:**
-   - Open `tracking/created_accounts.csv` first.
-   - If an account for the company already exists, use **Sign In** and use the stored login email/password from the tracking record and `personal_data/credentials.md` as applicable.
-   - If no account exists, continue with account creation.
-3. **Account Creation:**
-   - When redirected to a Workday portal, click "Apply" and then "Create Account".
-   - Use the standard email from `personal_data/profile.md`.
-   - Pull the standard password from `personal_data/credentials.md`.
-   - Accept terms and create the account.
-   - **IMMEDIATELY log these details to `tracking/created_accounts.csv`.**
-4. **Form Navigation (The Multi-Step Process):**
-   - **Upload Resume:** Upload `personal_data/resume.pdf` to allow Workday to parse it.
-   - **My Information:** Review parsed data. Fix any glaring errors using `personal_data/profile.md`.
-   - **My Experience:** Ensure the required job and education information is present using the saved personal data.
-   - **Application Questions:** Answer from `personal_data/form_answers.md`; otherwise skip and log the job as required by `AGENTS.md`.
-   - **Voluntary Disclosures:** Answer from `personal_data/form_answers.md`.
-5. **Submission:**
-   - Run the answer check from `AGENTS.md`.
-   - Before the first submit of the session, show the filled answers and wait for `ok`.
-   - Submit the application.
-   - Log the successful application to `tracking/applied_jobs.csv`.
-   - Wait at least 2 minutes before another Workday submit.
-6. **Email or account verification fallback:**
-   - If Workday requires email verification before the app can proceed and the agent cannot open the user's inbox, pause and say:
-     "Please sign in / create the account / click the email verification link in this tab, then reply done"
-   - Continue after the user replies `done`.
+1. Open one job, read the post, and run fit, scoped duplicate, daily-limit, site-stop, and pacing checks before creating or signing into an account.
+2. Check `tracking/created_accounts.csv`.
+   - If the company already has an account record, use Sign In.
+   - Otherwise continue with account creation using `personal_data/credentials.md`.
+3. When an account is created, append it immediately to `tracking/created_accounts.csv`. Never place its password in the daily application record.
+4. **Resume upload:** upload `personal_data/resume.pdf`.
+   - If the control is unsupported, ask the user to upload the resume in the current tab, wait for `done`, and verify the attachment.
+5. Review parsed/pre-filled information against the authoritative values in `personal_data/profile.md`. Correct mismatches before continuing.
+6. Complete required experience and education fields from saved data.
+7. For application questions, use `form_answers.md` and only matching context-specific learned answers. If a required question has no match, stop this job, log `needs_user`, and save the exact question/context immediately.
+8. Complete voluntary disclosures only from saved answers.
+9. Run the global final answer check from `AGENTS.md`.
+10. Before the first submit of the session, show the filled answers and attachment state and wait for `ok`.
+11. Submit the application and verify Workday's confirmation/status before recording `Status: applied`.
+12. Append the outcome immediately to today's `applied/YYYY-MM-DD/applications.md`.
+13. Wait at least 2 minutes before another Workday submit.
 
-## Exclusions / Rules
-- Do not get stuck in a loop correcting minor parsing errors on old experiences. Ensure the required fields are filled and proceed.
+## Account verification
+If Workday requires email verification and the agent cannot open the inbox, pause and say:
+
+> Please sign in / create the account / click the email verification link in this tab, then reply done
+
+Continue only after the user replies `done`.
+
+## Exclusions
+- Do not repeatedly correct harmless historical parsing differences after the required fields match the saved data.
+- Do not guess country-, employer-, or role-specific answers.

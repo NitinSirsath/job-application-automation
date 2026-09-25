@@ -1,28 +1,32 @@
-# Wellfound (AngelList) Application Strategy
+# Wellfound Application Strategy
 
 ## Objective
-Apply to relevant startup roles on Wellfound by using the platform's pitching system.
+Apply to relevant startup roles on Wellfound using its pitching flow.
 
 ## Search Strategy
-1. Navigate to Wellfound jobs section.
-2. Apply standard role and location filters from `personal_data/profile.md`.
+1. Navigate to the Wellfound jobs section.
+2. Apply the role, location, and work-mode preferences from `personal_data/profile.md`.
 3. Sort by Newest.
-4. Run the fit check in `AGENTS.md` before applying.
+4. Run the fit check from `AGENTS.md` before applying.
 
 ## Execution Flow
-1. Select a job match.
-2. Read the complete job post.
-3. Wellfound requires a short "Note" or "Pitch" to the founder/recruiter.
-4. Write a concise 2-3 sentence pitch using only values available in `personal_data/profile.md` and the job post:
-   - Use the target role/job title from the job post.
-   - Use the user's current job title, experience, and core tech stack from `profile.md`.
-   - Use the company name and relevant role details from the job post.
-   - Tailor the pitch to the actual company and role.
-   - Do not invent facts and do not leave placeholders or bracketed text.
-5. Before the first submit of the session, show the filled pitch and other filled answers and wait for `ok`.
-6. Submit the application.
-7. Log the application to `tracking/applied_jobs.csv`.
-8. Wait at least 2 minutes before another submit on Wellfound.
- 
+1. Select a job match and read the complete job post.
+2. Run the scoped duplicate, daily-limit, site-stop, and pacing checks.
+3. Wellfound may request a short Note/Pitch. Build it only from `profile.md` and the actual job post.
+4. Compare any prefilled facts with saved data before submission.
+5. For any unanswered required question, stop this job and log `needs_user`.
+6. If the resume upload is unsupported, ask the user to upload `personal_data/resume.pdf` in the current tab, wait for `done`, and verify the attachment.
+7. Before the first submit of the session, show the filled pitch and other submitted answers and wait for `ok`.
+8. Submit and verify the site confirmation before recording `Status: applied`.
+9. Append the outcome immediately to today's `applied/YYYY-MM-DD/applications.md`.
+10. Wait at least 2 minutes before another Wellfound submit.
+
+## Pitch rules
+- Use the target job title from the actual posting.
+- Use the saved current title, experience, and core tech stack only.
+- Tailor the pitch to the company and role using only job-post facts.
+- Do not invent facts, guarantees, or placeholders.
+- Keep the pitch to 2-3 sentences.
+
 ## Exclusions
-- Do not write long, generic cover letters. Keep the pitch short and tailored to the specific startup and role.
+- Do not write long, generic cover letters.
