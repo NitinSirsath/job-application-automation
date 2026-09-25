@@ -4,7 +4,7 @@
 Apply directly on company career pages, specifically targeting common, streamlined ATS platforms like Greenhouse, Lever, and Ashby.
 
 ## Execution Flow
-1. Navigate to the provided company career page URL.
+1. Open each URL under Company Career Page URLs in `personal_data/profile.md`. If there are none, skip company_direct.
 2. Locate the "Apply" or "View Roles" button.
 3. Identify the ATS type (look at the URL, e.g., `boards.greenhouse.io`, `jobs.lever.co`).
 4. Run the fit and duplicate checks in `AGENTS.md`.
