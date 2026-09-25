@@ -29,6 +29,8 @@ Save each answer to its file immediately before moving to the next topic:
 - Common screening answers: update `personal_data/form_answers.md`.
 - Application password: update `personal_data/credentials.md`.
 
+Basic information covers Basic Information, Links, Professional Details and Pitch / Summary in profile.md. Common screening answers covers every section of form_answers.md except Learned Answers. If the user skips or has no value for a field, write None. Setup is complete only when no [brackets] remain in profile.md and form_answers.md.
+
 Ask the user to sign in to each selected job site in the browser the agent uses.
 
 Create these tracking files if they are missing, using the exact headers and rules in the **Tracking files** section below.
@@ -41,7 +43,7 @@ Do not begin job applications during SETUP mode.
 
 ### START mode
 
-START mode runs only when the user types `start` and setup is complete.
+START mode runs only when the user types `start` and setup is complete (ignore the `## Learned Answers` section).
 
 For each site listed under **Where to apply** in `personal_data/profile.md`, use that site's strategy file:
 - LinkedIn → `instructions/platforms/linkedin_strategy.md`
@@ -63,7 +65,7 @@ Apply only when the fit check passes, no duplicate exists, and the relevant dail
 
 Before the first submit of each START session, show the user the filled answers that will be submitted and wait for the user to reply `ok`. After that approval, continue on its own.
 
-At the end of the session, report what was applied and what was skipped. For every skipped or `needs_user` job, include the reason or unanswered question. Ask the user any questions that could not be answered from the saved files.
+At the end of the session, report what was applied and what was skipped. For every skipped or `needs_user` job, include the reason or unanswered question. Ask the user any questions that could not be answered from the saved files. Save each answer the user gives under `## Learned Answers` in `personal_data/form_answers.md` right away.
 
 ## 2. Daily limits
 
@@ -92,11 +94,15 @@ Apply like a person:
 - Never submit in rapid bursts.
 - Leave at least 2 minutes between submits on the same site.
 
-If a job site shows a daily-limit, unusual-activity, CAPTCHA, verification, or restriction message, stop that site for today and tell the user.
+If a job site shows a daily-limit, unusual-activity, CAPTCHA, security check (such as 'verify you are human'), or restriction message, stop that site for today and tell the user.
 
 A CAPTCHA on one employer's own form skips that job only; it does not stop the whole site.
 
 Never attempt to bypass a CAPTCHA or 2FA challenge.
+
+An email verification link for a new account is not a stop; use the fallback in section 5.
+
+When you stop a site, log a `skipped` row with notes `site stopped: <message>`. At START, do not use a site that has such a row dated today.
 
 ## 3. Fit, duplicates, and answers
 
@@ -114,7 +120,7 @@ If the fit check fails, skip the job and log it as `skipped` with the reason.
 ### Duplicate check
 
 Skip a job when:
-- its `job_id` is already logged in `tracking/applied_jobs.csv`; or
+- its `job_id` is already logged as `applied` or `skipped` (a `needs_user` job may be retried once its question has an answer); or
 - the same company and job title are already marked `applied`.
 
 ### Never guess
@@ -128,7 +134,7 @@ If a required question is not covered:
 1. Do not guess.
 2. Skip the job.
 3. Log it with status `needs_user`.
-4. Put the unanswered question under `## Learned Answers` in `personal_data/form_answers.md` for the user to fill in.
+4. If it is not already there, add the question under `## Learned Answers` as `- **<question>:**` with nothing after the colon (no brackets).
 
 Never submit text that still contains square-bracket placeholders or placeholder text such as `X years`.
 
@@ -155,6 +161,8 @@ After setup, suggest starting a NEW chat on the suggested model instead of switc
 
 The AI signs in and creates accounts itself using `personal_data/credentials.md` when its app allows it.
 
+credentials.md is only for company portals (Workday, custom ATS). If LinkedIn, Indeed, Naukri or Wellfound is signed out, use the fallback message below.
+
 Fallback only when the app blocks it, for example when the app will not type passwords or create accounts:
 
 "Please sign in / create the account / click the email verification link in this tab, then reply done"
@@ -172,6 +180,8 @@ SETUP creates `tracking/` and both files if they are missing.
 Header:
 
 `"date","time","platform","company","job_title","job_id","job_url","status","notes"`
+
+date is the local date as YYYY-MM-DD. time is local 24-hour HH:MM:SS. platform is exactly one of: linkedin, indeed, naukri, wellfound, workday, company_direct, discovery. Any Workday form counts as workday, however it was found.
 
 Allowed status values:
 - `applied`
@@ -204,13 +214,13 @@ After approval:
 - respect all daily limits and the 2-minute same-site gap;
 - stop a site immediately when its restriction or daily-limit message appears.
 
+If a form is broken or keeps failing after 2 tries, skip the job, log it as skipped with the reason, and move on.
+
 Do not submit on jobs that fail the fit check, duplicate check, or answer requirements.
 
 ## 8. Strategy files
 
 Follow the relevant platform or advanced-strategy file for search and form flow. The strategy files never override the rules in this file.
-
-Naukri remains usable even though its search flow is different; use target job titles, profile preferences, and the fit check from this file.
 
 ## 9. File references
 
