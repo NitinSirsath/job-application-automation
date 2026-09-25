@@ -12,7 +12,7 @@ This repository contains zero executable code. It is a small set of Markdown ins
 6. The agent verifies the real files before allowing applications.
 7. After setup, choose today's platforms and requested application counts. Supported choices are LinkedIn, Indeed, Naukri, Wellfound, Instahyre, Workday, company career pages, and web discovery.
 8. Today's plan and every outcome are stored in exactly one file: \`applied/YYYY-MM-DD/applications.md\`.
-9. The agent applies one job at a time, uses the platform strategy files, respects the hard daily limits, pauses for the first-submit \`ok\) approval, and records confirmation only after the site shows it.
+9. The agent applies one job at a time, uses the platform strategy files, respects the hard daily limits, pauses for the first-submit \`ok\` approval, and records confirmation only after the site shows it.
 10. A later session on the same local date resumes the same daily file instead of creating another tracker.
 11. When a real model handoff is needed, all progress is already saved in the local files.
 
