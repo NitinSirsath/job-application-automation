@@ -89,7 +89,7 @@ Before allowing PLAN or START, verify all of the following from the actual files
 
 - `personal_data/resume.pdf` exists and is non-empty.
 - `personal_data/profile.md` exists and contains no unresolved `[bracketed placeholders]` in required fields.
-- `personal_data/form_answers.md` exists and contains no unresolved bracketed placeholders in required fields.
+- `personal_data/form_answers.md` exists and contains no unresolved bracketed placeholders in required fields, **except that empty `## Contextual Answers` and `## Learned Answers` sections are valid and expected until real contextual/learned questions arise**.
 - Required factual values are present in their authoritative source, or an optional field is explicitly `None`.
 - `setup_checklist.md` may contain stale checkboxes; the actual files above are authoritative.
 - If a later application plan needs company-portal credentials, verify `personal_data/credentials.md` is ready before the first such application.
@@ -219,24 +219,29 @@ Hard maximum applications per local day:
 Requested session counts and lower user-defined limits must also be respected.
 
 Before EVERY application:
-1. Re-read today's daily file.
-2. Recount today's `applied` outcomes for the platform.
-3. Recount today's all-platform `applied` outcomes.
-4. Recount company_direct + discovery together.
-5. Re-check the user's requested count for that platform.
-6. Re-check the current local date/time. If the date crossed midnight, stop using the old day's limits and create/resume the new date's file.
-7. Check today's Site Stops. Do not use a stopped site again that day.
+1. Re-read today's daily Markdown file.
+2. If `tracking/applied_jobs.csv` exists, re-read today's CSV rows from that legacy history.
+3. Recount today's `applied` outcomes for the platform across both sources.
+4. Recount today's all-platform `applied` outcomes across both sources.
+5. Recount company_direct + discovery together across both sources.
+6. Re-check the user's requested count for that platform.
+7. Re-check the current local date/time. If the date crossed midnight, stop using the old day's limits and create/resume the new date's file.
+8. Check today's Site Stops in Markdown and today's legacy CSV notes. A legacy row with status `skipped` and notes beginning exactly `site stopped:` stops that platform for the current local date. A stop from an earlier local date does not block today.
 
 Do not count the same application twice. The preferred application key is:
 `local date + platform + company + portal + job_id`.
 If a reliable job ID is unavailable, use `local date + platform + company + job title + job URL`.
 
-For duplicate/retry decisions, inspect all available daily files plus the legacy CSV:
+For duplicate/count decisions across Markdown and the legacy CSV:
+- Match equivalent applications by the preferred key; when a key is unavailable, use the fallback key above and normalize obvious URL trailing-slash differences before comparing.
+- An application present in both today's Markdown and today's legacy CSV counts once.
+- Today's legacy `applied` rows count toward today's platform and global limits.
+- Today's legacy `skipped` row with notes beginning `site stopped:` is a platform stop for today's local date.
+- Yesterday's or any earlier legacy stop does not block today's work.
 - `applied` or `skipped` means do not apply again for that job.
 - `needs_user` is retryable after the unanswered question has been resolved.
-- A matching application already represented in both the daily file and legacy CSV counts once, not twice.
 
-Preserve existing CSV history as read-only input. Never delete it and never write new rows to it.
+Preserve existing CSV history as read-only input. Never delete it, append to it, or modify it in any other way. Write all NEW application records only to the current daily Markdown file.
 
 ## 6. Fit checks, duplicates, and factual answers
 
@@ -267,7 +272,7 @@ For contextual questions:
 - do not turn one employer's or country's answer into a global answer automatically;
 - if the question is required and no matching answer exists, do not guess. Log `needs_user`.
 
-Store new unanswered questions under `## Learned Answers` in `form_answers.md` immediately after the user answers them. Include the relevant context and the exact question.
+Store new unanswered questions under `## Learned Answers` in `form_answers.md` immediately after the user answers them. Include the relevant context and the exact question. Add a **Contextual Answer** record only when a real contextual question arises; do not pre-populate placeholder contextual records.
 
 Never submit square-bracket placeholders, sample values, or guessed years.
 
@@ -292,6 +297,13 @@ If a site shows a daily-limit, unusual-activity, CAPTCHA, security check, or res
 - stop that site for the day;
 - log the dated stop under **Site Stops** and add a `skipped` record with notes `site stopped: <message>`;
 - do not retry that site later the same day.
+
+A normal signed-out or login-required prompt is **not** a site stop. When the site merely requires ordinary login:
+- ask the user to sign in in the current tab and reply `done`;
+- after `done`, verify that the site is signed in;
+- continue the current application workflow.
+
+Authentication language means a stop only when it is accompanied by an actual security restriction, CAPTCHA, unusual-activity warning, daily-limit message, or equivalent access restriction. Do not treat ordinary login as a security stop.
 
 A CAPTCHA on an employer's own form skips that job only unless the employer portal itself blocks further use.
 
@@ -331,6 +343,8 @@ Header:
 Before creating a Workday or other company account, check this file first. If a record for that company exists, use **Sign In** instead of creating another account.
 
 `credentials.md` is for reusable standard company-portal credentials. Daily application reports must never contain passwords.
+
+When a platform or ATS simply shows a signed-out/login-required state, ask the user to sign in in the current tab and reply `done`, then verify sign-in and resume the current flow. Do not stop the platform for the day unless the page also shows a security restriction, CAPTCHA, unusual-activity warning, daily-limit message, or equivalent restriction.
 
 If the browser/app blocks automated sign-in or account creation, use:
 "Please sign in / create the account / click the email verification link in this tab, then reply done"
@@ -378,18 +392,21 @@ Never create a second daily application file for another session on the same loc
 
 The instructions must support these scenarios without contradictions:
 
-1. **Fresh setup** — missing files are created, resume is copied, topics are collected one at a time, and no applications start before verification.
-2. **Interrupted setup** — existing answers and checklist state are preserved and SETUP resumes at the first unfinished topic.
+1. **Fresh setup** — missing files are created, resume is copied, topics are collected one at a time, empty contextual/learned sections are accepted, and no applications start before verification.
+2. **Interrupted setup** — existing answers and checklist state are preserved, including already learned answers, and SETUP resumes at the first unfinished topic.
 3. **Skipped optional fields** — `None` is stored once and does not cause a setup loop.
-4. **First instant-submit application** — preview + `ok` happens before a submit-capable click, including Naukri Apply.
-5. **Unsupported upload** — user uploads in the current tab, replies `done`, and the file is verified.
-6. **Discovery into Lever** — the discovered Lever form is continued directly using the company-direct form rules; no saved career URL is required.
-7. **Discovery into Workday** — continue the current Workday form and count it as workday.
-8. **Context-specific unanswered question and later retry** — the unanswered question becomes `needs_user`, gets stored with context after the user answers, and the same job may then be retried.
-9. **Two sessions on one date** — both sessions write to the same daily file.
-10. **New local date/midnight** — a new date file is used for limits while historical duplicate checks remain active.
-11. **Partly used limits + site stop** — counts and dated stop records persist in today's file.
-12. **Existing CSV history** — legacy rows are read for duplicate/count context but never modified and never double-counted.
-13. **New-chat/model handoff** — all progress is saved first; the user can resume without repeating completed setup or today's plan.
+4. **Normal sign-in request** — an ordinary signed-out/login-required prompt asks the user to sign in in the current tab, wait for `done`, verify sign-in, and resume rather than stopping the platform.
+5. **Real security restriction** — CAPTCHA, unusual activity, security restriction, or daily-limit messaging still stops the platform for that local date.
+6. **First instant-submit application** — preview + `ok` happens before a submit-capable click, including Naukri Apply.
+7. **Unsupported upload** — user uploads in the current tab, replies `done`, and the file is verified.
+8. **Discovery into Lever** — the discovered Lever form is continued directly using the company-direct form rules; no saved career URL is required.
+9. **Discovery into Workday** — continue the current Workday form and count it as workday.
+10. **Context-specific unanswered question and later retry** — the unanswered question becomes `needs_user`, gets stored with context after the user answers, and the same job may then be retried.
+11. **Two sessions on one date** — both sessions write to the same daily file.
+12. **New local date/midnight** — a new date file is used for limits while historical duplicate checks remain active.
+13. **Partly used limits + site stop** — today's counts and dated stop records persist in today's file and today's legacy CSV rows are included.
+14. **Legacy site stop by date** — a today's legacy skipped row whose notes begin `site stopped:` blocks that platform today; an earlier-date stop does not.
+15. **Overlapping legacy + Markdown application** — the same application recorded in both sources is counted once.
+16. **New-chat/model handoff** — all progress is saved first; the user can resume without repeating completed setup or today's plan.
 
 Do not claim live application testing. These walkthroughs are static instruction/workflow checks unless an actual browser session is separately performed.
