@@ -1,6 +1,6 @@
 # Professional Profile
 
-> **Instructions:** Copy this file to \`profile.md\` and replace the bracketed values with the user's actual information. Save \`None\` for optional values that are unavailable. This file is the authoritative source for profile facts and job preferences.
+> **Instructions:** Copy this file to `profile.md` and replace the bracketed values with the user's actual information. Save `None` for optional values that are unavailable. This file is the authoritative source for profile facts and job preferences.
 
 ## Basic Information
 - **First Name:** [Your First Name]
@@ -68,4 +68,4 @@ Use one subsection per education record.
 
 ## Notes
 - Keep factual profile data here as the single authoritative source.
-- Save employer-, country-, role-, or portal-specific answer variants in \`form_answers.md\` with explicit context instead of overwriting these global facts.
+- Save employer-, country-, role-, or portal-specific answer variants in `form_answers.md` with explicit context instead of overwriting these global facts.

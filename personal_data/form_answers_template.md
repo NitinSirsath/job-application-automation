@@ -1,6 +1,6 @@
 # Form Answers
 
-> **Instructions:** Copy this file to \`form_answers.md\`. Use it for common screening answers and contextual answers. Global profile facts such as work mode, location, work authorization, sponsorship, employment, education, and salary remain authoritative in \`personal_data/profile.md\`.
+> **Instructions:** Copy this file to `form_answers.md`. Use it for common screening answers and contextual answers. Global profile facts such as work mode, location, work authorization, sponsorship, employment, education, and salary remain authoritative in `personal_data/profile.md`.
 
 ## Common Screening Questions
 
@@ -22,7 +22,7 @@
 
 ### Number and formatting rules
 - **Number fields:** digits only.
-- **Years fields:** use the authoritative values from \`profile.md\`.
+- **Years fields:** use the authoritative values from `profile.md`.
 
 ## Contextual Answers
 

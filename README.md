@@ -6,31 +6,31 @@ This repository contains zero executable code. It is a small set of Markdown ins
 
 1. Download the repository folder.
 2. Open the folder in Codex, Claude Code, Antigravity, or another supported AI app with browser access.
-3. Type \`start\`.
+3. Type `start`.
 4. The agent creates missing personal-data files from the committed templates and guides setup one topic at a time.
-5. Setup is resumable: answers are saved immediately, skipped optional values are stored as \`None\`, and a local \`setup_checklist.md\` is only a progress aid.
+5. Setup is resumable: answers are saved immediately, skipped optional values are stored as `None`, and a local `setup_checklist.md` is only a progress aid.
 6. The agent verifies the real files before allowing applications.
 7. After setup, choose today's platforms and requested application counts. Supported choices are LinkedIn, Indeed, Naukri, Wellfound, Instahyre, Workday, company career pages, and web discovery.
-8. Today's plan and every outcome are stored in exactly one file: \`applied/YYYY-MM-DD/applications.md\`.
-9. The agent applies one job at a time, uses the platform strategy files, respects the hard daily limits, pauses for the first-submit \`ok\` approval, and records confirmation only after the site shows it.
+8. Today's plan and every outcome are stored in exactly one file: `applied/YYYY-MM-DD/applications.md`.
+9. The agent applies one job at a time, uses the platform strategy files, respects the hard daily limits, pauses for the first-submit `ok` approval, and records confirmation only after the site shows it.
 10. A later session on the same local date resumes the same daily file instead of creating another tracker.
 11. When a real model handoff is needed, all progress is already saved in the local files.
 
-The legacy \`tracking/applied_jobs.csv\`, when present, is read-only history. The separate \`tracking/created_accounts.csv\` remains the account record for reusable company-portal accounts. New applications are never written back to the CSV tracker.
+The legacy `tracking/applied_jobs.csv`, when present, is read-only history. The separate `tracking/created_accounts.csv` remains the account record for reusable company-portal accounts. New applications are never written back to the CSV tracker.
 
 ## 📁 Key files
 
-- \`AGENTS.md\` — authoritative workflow and safety rules.
-- \`CLAUDE.md\` — imports \`AGENTS.md\`.
-- \`personal_data/profile_template.md\` — authoritative profile/job-preference template.
-- \`personal_data/form_answers_template.md\` — reusable and contextual screening-answer template.
-- \`personal_data/credentials_template.md\` — company-portal credential template.
-- \`instructions/platforms/\` — platform strategies, including Instahyre.
-- \`instructions/advanced_strategies/\` — company-direct and discovery flows.
-- \`setup_checklist.md\` — local ignored setup progress created at runtime.
-- \`applied/YYYY-MM-DD/applications.md\` — one local-date application record created at runtime.
-- \`tracking/created_accounts.csv\` — local company account record.
-- \`tracking/applied_jobs.csv\` — legacy read-only history, if present.
+- `AGENTS.md` — authoritative workflow and safety rules.
+- `CLAUDE.md` — imports `AGENTS.md`.
+- `personal_data/profile_template.md` — authoritative profile/job-preference template.
+- `personal_data/form_answers_template.md` — reusable and contextual screening-answer template.
+- `personal_data/credentials_template.md` — company-portal credential template.
+- `instructions/platforms/` — platform strategies, including Instahyre.
+- `instructions/advanced_strategies/` — company-direct and discovery flows.
+- `setup_checklist.md` — local ignored setup progress created at runtime.
+- `applied/YYYY-MM-DD/applications.md` — one local-date application record created at runtime.
+- `tracking/created_accounts.csv` — local company account record.
+- `tracking/applied_jobs.csv` — legacy read-only history, if present.
 
 ## 🧭 Daily limits
 
