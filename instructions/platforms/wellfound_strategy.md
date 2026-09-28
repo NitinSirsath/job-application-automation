@@ -19,7 +19,7 @@ Apply to relevant startup roles on Wellfound using the current application and p
 7. Submit.
 8. Confirm success from Wellfound.
 9. Append the outcome immediately to today's daily Markdown file.
-10. Wait at least 2 minutes before another Wellfound submit.
+10. Follow the shared cooldown/rotation rule in `AGENTS.md`; do not add a separate fixed wait here.
 
 ## Exclusions
 - Do not write a long generic cover letter.
