@@ -26,7 +26,7 @@ When the discovered source provides visible job-search freshness controls, apply
 11. Before the session's first submit-capable action, show the exact filled answers/pitch and wait for `ok`.
 12. Confirm success from the actual site.
 13. Append the outcome immediately to today's daily Markdown file.
-14. Wait at least 2 minutes between submits in the combined company-direct/discovery workflow.
+10. Follow the shared cooldown/rotation rule in `AGENTS.md`; do not add a separate fixed wait here.
 
 ## Exclusions
 - Do not restart the search after a discovered job has been opened.
