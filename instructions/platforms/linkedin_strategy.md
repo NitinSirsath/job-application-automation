@@ -22,7 +22,7 @@ Apply to roles matching the target job titles in `personal_data/profile.md`.
 10. Submit the application.
 11. Wait for confirmation shown by LinkedIn.
 12. Append one record immediately to today's daily Markdown file.
-13. Wait at least 2 minutes before another LinkedIn submit.
+10. Follow the shared cooldown/rotation rule in `AGENTS.md`; do not add a separate fixed wait here.
 
 ## Exclusions
 - Do not apply when required experience exceeds the user's profile.
