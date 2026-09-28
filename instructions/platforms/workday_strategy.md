@@ -7,6 +7,7 @@ Complete Workday application forms safely. Any Workday application counts toward
 1. When Workday is selected directly, discover roles using the current search flow.
 2. When a Workday job arrives from discovery or a company page, **continue the current discovered job**. Do not restart a Workday search.
 3. Use target titles, locations, and work modes from `personal_data/profile.md`.
+4. When the current Workday search UI exposes freshness controls, apply the shared freshness rule in `AGENTS.md`; verify them before reviewing results.
 
 ## Execution Flow
 1. Read today's daily file and applicable history for scoped duplicates.
