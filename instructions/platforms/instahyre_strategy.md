@@ -8,7 +8,7 @@ Apply to relevant roles on Instahyre while keeping the workflow deliberately con
 2. Use target titles, locations, and work modes from `personal_data/profile.md`.
 3. Apply the shared freshness rule in `AGENTS.md` when the current UI exposes freshness controls; verify the controls before reviewing results.
 4. Do not assume a particular button name, form sequence, or quick-apply behavior unless the current page shows it.
-4. Run fit, duplicate, and daily-limit checks before applying.
+5. Run fit, duplicate, and daily-limit checks before applying.
 
 ## Execution Flow
 1. Instahyre has a hard maximum of 10 applications per local day, regardless of a larger user request.
