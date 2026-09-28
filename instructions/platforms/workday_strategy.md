@@ -7,6 +7,7 @@ Complete Workday application forms safely. Any Workday application counts toward
 1. When Workday is selected directly, discover roles using the current search flow.
 2. When a Workday job arrives from discovery or a company page, **continue the current discovered job**. Do not restart a Workday search.
 3. Use target titles, locations, and work modes from `personal_data/profile.md`.
+4. When the current Workday search UI exposes freshness controls, apply the shared freshness rule in `AGENTS.md`; verify them before reviewing results.
 
 ## Execution Flow
 1. Read today's daily file and applicable history for scoped duplicates.
@@ -25,7 +26,7 @@ Complete Workday application forms safely. Any Workday application counts toward
 14. Submit.
 15. Wait for confirmation shown by Workday.
 16. Append the outcome immediately to today's daily Markdown file.
-17. Wait at least 2 minutes before another Workday submit.
+17. Follow the shared cooldown/rotation rule in `AGENTS.md`; do not add a separate fixed wait here.
 
 ## Account / verification fallback
 If Workday requires email verification that the agent cannot complete, say:
