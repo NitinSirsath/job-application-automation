@@ -19,7 +19,7 @@ Apply to relevant roles on Indeed using its current quick-apply flow.
 7. Submit.
 8. Confirm success from the site.
 9. Append the application outcome immediately to today's daily Markdown file.
-10. Wait at least 2 minutes before another Indeed submit.
+10. Follow the shared cooldown/rotation rule in `AGENTS.md`; do not add a separate fixed wait here.
 
 ## Exclusions
 - Skip an application that requires a mandatory custom skills test or assessment before submission unless the user has an explicit saved answer/workflow for it.
