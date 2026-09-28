@@ -128,8 +128,8 @@ For each selected platform:
 - save today's platform plan and current progress in `applied/YYYY-MM-DD/applications.md`.
 
 Requested source targets and destination limits:
-- Each application belongs to one selected source/plan choice. A confirmed application advances that choice's requested target.
-- The same confirmed application also consumes the actual application's destination daily allowance and counts once toward the all-platform global limit.
+- Each application belongs to one selected source/plan choice. Record that exact saved-plan key in `Selected plan choice`. A confirmed application advances only that choice's requested target.
+- The same confirmed application also consumes the actual application's destination daily allowance and cooldown, and counts once toward the all-platform global limit.
 - Before applying, check both the selected source's remaining requested target and the actual destination/global limits.
 - Store only one job record for the application.
 - A blank `Requested` value for an unselected destination does not block an application routed there; destination limits still apply.
