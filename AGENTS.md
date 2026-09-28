@@ -510,11 +510,13 @@ The instructions must support these scenarios without contradictions:
 14. **Only one eligible choice** — when only one selected platform/source choice can proceed, wait for its remaining cooldown rather than restarting a full 120 seconds.
 15. **Freshness controls** — Newest/Most recent and Past 24 hours are available and verified; unavailable controls are reported; exhausted suitable results are reported; no older range is introduced automatically.
 16. **Partly used limits + site stop** — today's counts and dated stop records persist in today's file and today's legacy CSV rows are included.
-14. **Legacy site stop by date** — a today's legacy skipped row whose notes begin `site stopped:` blocks that platform today; an earlier-date stop does not.
-15. **Overlapping legacy + Markdown application** — the same application recorded in both sources is counted once.
-19. **New-chat/model handoff** — all progress is saved first; the user can resume without repeating completed setup or today's plan.
-20. **Selectable job sources** — each new source can be selected in PLAN; the source is recorded, the actual destination is inspected, and routing follows the existing discovery/company-direct/Workday flow.
-21. **Unconfirmed source action** — profile/talent registration or an Apply-button click without a site confirmation is not counted as `applied`.
-22. **Source-route unavailable** — an unsupported destination or email-only route is reported as unavailable without inventing a flow or sending an automatic email.
+17. **Source with mixed destinations** — one selected source has a blocked Workday job and an eligible Lever job; skip only the blocked job and continue with the eligible job.
+18. **Overlapping source selections** — discovery finds a We Work Remotely listing; the record's `Selected plan choice` identifies which requested target advances, while the actual destination controls its limit/cooldown and the global total counts once.
+19. **Legacy site stop by date** — a today's legacy skipped row whose notes begin `site stopped:` blocks that platform today; an earlier-date stop does not.
+20. **Overlapping legacy + Markdown application** — the same application recorded in both sources is counted once.
+21. **New-chat/model handoff** — all progress is saved first; the user can resume without repeating completed setup or today's plan.
+22. **Selectable job sources** — each new source can be selected in PLAN; the source is recorded, the actual destination is inspected, and routing follows the existing discovery/company-direct/Workday flow.
+23. **Unconfirmed source action** — profile/talent registration or an Apply-button click without a site confirmation is not counted as `applied`.
+24. **Source-route unavailable** — an unsupported destination or email-only route is reported as unavailable without inventing a flow or sending an automatic email.
 
 Do not claim live application testing. These walkthroughs are static instruction/workflow checks unless an actual browser session is separately performed.
