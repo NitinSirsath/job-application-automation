@@ -57,6 +57,6 @@ The agent recommends a tier from the same vendor and asks the user to select it 
 
 ## 🔒 Practical safeguards
 
-The workflow keeps fit checks, scoped duplicate checks, no-guessing rules, prefilled-data verification, first-submit approval, additional host-app approvals, two-minute same-platform pacing, CAPTCHA/security stop rules, unsupported-upload handling, account-record reuse, and confirmation-before-success.
+The workflow keeps fit checks, scoped duplicate checks, no-guessing rules, prefilled-data verification, first-submit approval, additional host-app approvals, 120-second same-platform/workflow cooldowns with platform rotation, CAPTCHA/security stop rules, unsupported-upload handling, account-record reuse, and confirmation-before-success. Freshness follows the visible-controls rule in `AGENTS.md`.
 
 No live application testing is claimed by this repository update.
