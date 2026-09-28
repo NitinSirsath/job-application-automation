@@ -19,7 +19,7 @@ Apply to relevant technical roles on Naukri.com.
 7. Compare any prefilled factual values before final submission.
 8. Confirm success from Naukri.
 9. Append the result immediately to today's daily Markdown file.
-10. Wait at least 2 minutes before another Naukri submit.
+10. Follow the shared cooldown/rotation rule in `AGENTS.md`; do not add a separate fixed wait here.
 
 ## Exclusions
 - Skip roles whose location or work mode does not match the authoritative values in `profile.md`.
