@@ -125,6 +125,8 @@ Use the user's local date, not UTC.
 
 If today's file already exists, resume it instead of creating a second file or asking for the plan again unless the user wants to change the plan.
 
+Keep the selected platforms in the saved plan order. That order is the rotation order used during START.
+
 ### Daily file layout
 
 Use exactly one file:
@@ -158,6 +160,20 @@ Start the file with:
 ## Site Stops
 
 - None
+
+## Submit Cooldowns
+
+Store one `Next submit after` timestamp per platform/workflow here. Use the actual submit-capable action time plus 120 seconds. Preserve unfinished timestamps when resuming; do not reset them because of a new chat or midnight. Keep this state in this daily file only.
+
+| Platform/workflow | Next submit after |
+| --- | --- |
+| linkedin | |
+| indeed | |
+| naukri | |
+| wellfound | |
+| instahyre | |
+| workday | |
+| company_direct/discovery | |
 
 ## linkedin
 
@@ -218,6 +234,8 @@ Hard maximum applications per local day:
 
 Requested session counts and lower user-defined limits must also be respected.
 
+Each application belongs to one selected platform/plan choice. A confirmed application advances that choice's requested/applied count, consumes the actual destination's daily allowance and its platform/workflow cooldown, and counts once toward the all-platform global limit. Before applying, check the selected choice's requested count, the actual destination's remaining daily allowance, and the global remaining limit.
+
 Before EVERY application:
 1. Re-read today's daily file.
 2. Recount today's `applied` outcomes for the platform.
@@ -237,6 +255,38 @@ For duplicate/retry decisions, inspect all available daily files plus the legacy
 - A matching application already represented in both the daily file and legacy CSV counts once, not twice.
 
 Preserve existing CSV history as read-only input. Never delete it and never write new rows to it.
+
+## 5A. Two-minute cooldown and platform rotation
+
+- Apply one job at a time.
+- After completing an application, move to the next selected platform in the saved plan order.
+- Example: LinkedIn → Indeed → Naukri → repeat until each requested count is reached or suitable jobs are exhausted.
+- Skip platforms whose requested target is complete, whose daily limit is reached, which have no suitable results left, or which are stopped.
+- If the current platform is cooling down, check the next selected platform.
+- Wait only when no other eligible selected platform can proceed. Wait for the remaining cooldown, not a fresh two minutes.
+- Time spent reading jobs, filling forms, checking answers, and working on another platform counts toward the elapsed cooldown.
+- Immediately before every submit-capable action, check the current clock against that platform/workflow's `Next submit after` timestamp. This includes Naukri's potentially instant Apply click.
+- When the submit-capable action occurs, update that timestamp to the actual action time plus 120 seconds. Do not base it on later confirmation or report-writing time.
+- A cooldown expires after its remaining time. CAPTCHA, restriction, unusual-activity, security, and other site-stop conditions remain governed by the existing site-stop rules; they are not cooldowns.
+- Preserve or recover an unfinished cooldown when resuming. Restarting a chat or crossing midnight must not erase it.
+- Use the actual application platform/workflow classification for cooldowns. Discovering a job through another source does not create a separate cooldown for the same destination. Company-direct and discovery remain one combined workflow for their shared limit/cooldown.
+- Do not introduce parallel applications, multiple unfinished forms, background workers, another remaining-count tracker, or a complex scheduling algorithm.
+
+## 5B. Simple newest-first job search
+
+Use the website's visible controls. The model must not perform its own job-date ranking.
+
+Shared freshness rule:
+> Select Newest / Most recent and Past 24 hours when those controls are available. Verify that the selected controls are active, then review results from top to bottom using the existing fit and duplicate checks.
+
+- Inspect the current website UI; labels may vary. Never invent controls.
+- Recheck the selected controls after changing searches or filters.
+- If no suitable jobs remain under those filters, report the shortfall and continue to another selected platform.
+- Do not automatically widen the search to Past week, seven days, older postings, or All time.
+- If freshness controls are unavailable or cannot be verified, clearly report that limitation rather than claiming the results are newest-first or within 24 hours.
+- Do not add manual date calculations, age scoring, cross-platform date comparisons, posting-date tracking columns, or a separate freshness queue.
+
+Keep this workflow short: select visible filters → verify them → follow results top to bottom → check fit → apply.
 
 ## 6. Fit checks, duplicates, and factual answers
 
@@ -281,7 +331,7 @@ Never submit square-bracket placeholders, sample values, or guessed years.
 - Continue honoring any additional approval required by the host application.
 - After the first approval, still review each application's final values before submission.
 - Submit one application at a time.
-- Leave at least two minutes between submits on the same platform/workflow.
+- Follow the shared cooldown/rotation rule in section 5A; do not add a separate fixed wait here.
 - Record `applied` only after the site shows confirmation.
 - If a site asks the user to upload a file manually because automated upload is unsupported, ask the user to upload `personal_data/resume.pdf` in the current tab, wait for `done`, then verify the upload before continuing.
 - If a form is broken or keeps failing after two tries, log it as `skipped` with the reason and continue.
