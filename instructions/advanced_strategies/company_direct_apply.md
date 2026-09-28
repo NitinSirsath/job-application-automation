@@ -32,7 +32,7 @@ If the current company/ATS page provides a job-search results UI, apply the shar
    - log a new account immediately when created;
    - answer only from saved data and matching contextual answers.
 7. Append the application outcome immediately to today's `applied/YYYY-MM-DD/applications.md`.
-8. Wait at least 2 minutes before another submit in the company-direct/discovery workflow.
+10. Follow the shared cooldown/rotation rule in `AGENTS.md`; do not add a separate fixed wait here.
 
 ## Exclusions
 - Skip essay-style behavioral questions that are required but not covered by saved user information.
