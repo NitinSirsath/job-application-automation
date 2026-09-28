@@ -32,4 +32,4 @@ Use this section for answers that depend on an employer, country, role, portal, 
 
 Use this section for required questions that were previously unanswered. This section must remain empty until a real question is answered and learned. Add a learned record only when the user provides the answer.
 
-When a record is needed, use the concise contextual record format defined in `AGENTS.md` and preserve all existing records.
+When a record is needed, use the concise contextual record format defined in `AGENTS.md` and preserve all existing records. Keep both sections empty until a real answer exists; do not create placeholder records.
