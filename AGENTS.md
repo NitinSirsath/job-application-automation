@@ -288,10 +288,10 @@ Preserve existing CSV history as read-only input. Never delete it, append to it,
 - Apply one job at a time.
 - After completing an application, move to the next selected platform/source choice in the saved plan order.
 - Example: LinkedIn → Indeed → Naukri → repeat until each requested count is reached or suitable jobs are exhausted.
-- Skip only the current job/application when its actual destination limit is reached, blocked, or cooling down.
+- Skip only the current job/application when its actual destination limit is reached or blocked for an existing skip reason. A cooldown never causes a job to be recorded as `skipped`.
 - Continue checking other eligible jobs from the same selected source/plan choice; a source is exhausted only when no eligible results remain or its requested target is complete.
-- If the current actual destination is cooling down, check the next selected platform/source choice.
-- Wait only when no other eligible selected platform/source choice can proceed. Wait for the remaining cooldown, not a fresh two minutes.
+- If the current actual destination is cooling down, defer the current job and check the next selected platform/source choice. Keep the deferred job eligible for later.
+- Wait only when no other eligible selected platform/source choice can proceed. Wait for the remaining cooldown, not a fresh two minutes, then continue the same deferred job.
 - Time spent reading jobs, filling forms, checking answers, and working on another platform/source counts toward the elapsed cooldown.
 - Immediately before every submit-capable action, check the clock against that actual destination's `Next submit after` timestamp. This includes Naukri's potentially instant Apply click.
 - When the submit-capable action occurs, set that actual destination/workflow timestamp to the action time plus 120 seconds. Do not base it on later confirmation or report-writing time.
@@ -506,8 +506,8 @@ The instructions must support these scenarios without contradictions:
 10. **Context-specific unanswered question and later retry** — the unanswered question becomes `needs_user`, gets stored with context after the user answers, and the same job may then be retried.
 11. **Two sessions on one date** — both sessions write to the same daily file.
 12. **New local date/midnight** — a new date file is used for limits while historical duplicate checks remain active; any unexpired cooldown from the previous daily record is carried forward by its dated `Next submit after` timestamp before another submission.
-13. **Cooldown rotation** — one selected platform/source choice is cooling down while another eligible choice proceeds; if nothing else is eligible, wait only for the remaining interval.
-14. **Only one eligible choice** — when only one selected platform/source choice can proceed, wait for its remaining cooldown rather than restarting a full 120 seconds.
+13. **Cooldown rotation** — one selected platform/source choice is cooling down while another eligible choice proceeds; if nothing else is eligible, wait only for the remaining interval. A suitable job encountered during cooldown remains eligible and is revisited without a cooldown-related `skipped` record.
+14. **Only one eligible choice** — when only one selected platform/source choice can proceed, wait for its remaining cooldown rather than restarting a full 120 seconds, then continue the same job.
 15. **Freshness controls** — Newest/Most recent and Past 24 hours are available and verified; unavailable controls are reported; exhausted suitable results are reported; no older range is introduced automatically.
 16. **Partly used limits + site stop** — today's counts and dated stop records persist in today's file and today's legacy CSV rows are included.
 17. **Source with mixed destinations** — one selected source has a blocked Workday job and an eligible Lever job; skip only the blocked job and continue with the eligible job.
