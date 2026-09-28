@@ -9,6 +9,9 @@ Find relevant direct job postings outside the major platforms and continue the d
 3. Avoid aggregators that merely redirect back to LinkedIn or Indeed.
 4. Do not require saved company career URLs for discovery.
 
+## Search / freshness
+When the discovered source provides visible job-search freshness controls, apply the shared freshness rule in `AGENTS.md` before reviewing results. If those controls are unavailable or cannot be verified, report that limitation rather than claiming newest-first or 24-hour results.
+
 ## Execution Flow
 1. Execute discovery searches.
 2. Open a discovered job and inspect the actual job page.
