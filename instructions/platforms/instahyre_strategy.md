@@ -6,7 +6,8 @@ Apply to relevant roles on Instahyre while keeping the workflow deliberately con
 ## Search Strategy
 1. Open Instahyre and inspect the actual current job/search UI at runtime.
 2. Use target titles, locations, and work modes from `personal_data/profile.md`.
-3. Do not assume a particular button name, form sequence, or quick-apply behavior unless the current page shows it.
+3. Apply the shared freshness rule in `AGENTS.md` when the current UI exposes freshness controls; verify the controls before reviewing results.
+4. Do not assume a particular button name, form sequence, or quick-apply behavior unless the current page shows it.
 4. Run fit, duplicate, and daily-limit checks before applying.
 
 ## Execution Flow
@@ -20,7 +21,7 @@ Apply to relevant roles on Instahyre while keeping the workflow deliberately con
 8. Complete the actual current-page application flow.
 9. Record `applied` only after the site shows confirmation. Otherwise record `skipped` or `needs_user` with the exact reason.
 10. Append the outcome immediately to today's daily Markdown file.
-11. Wait at least 2 minutes before another Instahyre submit.
+11. Follow the shared cooldown/rotation rule in `AGENTS.md`; do not add a separate fixed wait here.
 
 ## Exclusions
 - Do not invent guaranteed Instahyre UI behavior.
