@@ -22,6 +22,9 @@ These sources may be selected during PLAN and routed by the actual job/applicati
 
 Do not count a source registration, profile/talent signup, or bare Apply-button click as an application. Count only after the actual destination confirms submission for a specific job.
 
+## Search / freshness
+When the discovered source provides visible job-search freshness controls, apply the shared freshness rule in `AGENTS.md` before reviewing results. If those controls are unavailable or cannot be verified, report that limitation rather than claiming newest-first or 24-hour results.
+
 ## Execution Flow
 1. Execute discovery searches.
 2. Open a discovered job and inspect the actual job page.
@@ -36,7 +39,7 @@ Do not count a source registration, profile/talent signup, or bare Apply-button 
 11. Before the session's first submit-capable action, show the exact filled answers/pitch and wait for `ok`.
 12. Confirm success from the actual site.
 13. Record the discovery source and actual application destination, then append the outcome immediately to today's daily Markdown file.
-14. Wait at least 2 minutes between submits in the combined company-direct/discovery workflow.
+14. Follow the shared cooldown/rotation rule in `AGENTS.md`; do not add a separate fixed wait here.
 
 ## Exclusions
 - Do not restart the search after a discovered job has been opened.
