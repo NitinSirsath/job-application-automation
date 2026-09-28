@@ -8,6 +8,9 @@ This strategy supports two entry points:
 - **company_direct plan** — use the company career URLs saved in `personal_data/profile.md`.
 - **discovery handoff** — use the exact ATS/application URL discovered from the current job. Do not require a saved career URL and do not restart a search.
 
+## Search / freshness
+If the current company/ATS page provides a job-search results UI, apply the shared freshness rule in `AGENTS.md` before reviewing results. Do not invent controls or widen to older ranges automatically.
+
 ## Execution Flow
 1. Start from the current company/job page supplied by the plan or discovery flow.
 2. Locate the Apply/View Roles control shown by the current page.
@@ -29,7 +32,7 @@ This strategy supports two entry points:
    - log a new account immediately when created;
    - answer only from saved data and matching contextual answers.
 7. Append the application outcome immediately to today's `applied/YYYY-MM-DD/applications.md`.
-8. Wait at least 2 minutes before another submit in the company-direct/discovery workflow.
+8. Follow the shared cooldown/rotation rule in `AGENTS.md`; do not add a separate fixed wait here.
 
 ## Exclusions
 - Skip essay-style behavioral questions that are required but not covered by saved user information.
