@@ -20,7 +20,7 @@ Apply to relevant roles on Instahyre while keeping the workflow deliberately con
 7. Complete the actual current-page application flow.
 8. Record `applied` only after the site shows confirmation. Otherwise record `skipped` or `needs_user` with the exact reason.
 9. Append the outcome immediately to today's daily Markdown file.
-10. Wait at least 2 minutes before another Instahyre submit.
+10. Follow the shared cooldown/rotation rule in `AGENTS.md`; do not add a separate fixed wait here.
 
 ## Exclusions
 - Do not invent guaranteed Instahyre UI behavior.
