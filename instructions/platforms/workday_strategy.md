@@ -26,7 +26,7 @@ Complete Workday application forms safely. Any Workday application counts toward
 14. Submit.
 15. Wait for confirmation shown by Workday.
 16. Append the outcome immediately to today's daily Markdown file.
-17. Wait at least 2 minutes before another Workday submit.
+10. Follow the shared cooldown/rotation rule in `AGENTS.md`; do not add a separate fixed wait here.
 
 ## Account / verification fallback
 If Workday requires email verification that the agent cannot complete, say:
