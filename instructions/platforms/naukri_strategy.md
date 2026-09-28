@@ -7,7 +7,7 @@ Apply to relevant technical roles on Naukri.com.
 1. Navigate to Naukri search.
 2. Use skills and target titles from `personal_data/profile.md`.
 3. Set experience filters from the saved profile.
-4. Prefer recent postings.
+4. Apply the shared freshness rule in `AGENTS.md` when freshness controls are available; verify them before reviewing results and do not widen to older ranges automatically.
 
 ## Execution Flow
 1. Read today's daily file and history for scoped duplicates.
@@ -20,7 +20,7 @@ Apply to relevant technical roles on Naukri.com.
 8. Compare any prefilled factual values before final submission.
 9. Confirm success from Naukri.
 10. Append the result immediately to today's daily Markdown file.
-11. Wait at least 2 minutes before another Naukri submit.
+11. Follow the shared cooldown/rotation rule in `AGENTS.md`; do not add a separate fixed wait here.
 
 ## Exclusions
 - Skip roles whose location or work mode does not match the authoritative values in `profile.md`.
