@@ -6,7 +6,7 @@ Apply to relevant roles on Indeed using its current quick-apply flow.
 ## Search Strategy
 1. Go to Indeed.
 2. Search for target job titles from `personal_data/profile.md`.
-3. Prefer postings from the last 24 hours.
+3. Apply the shared freshness rule in `AGENTS.md`: use visible Newest / Most recent and Past 24 hours controls when available, verify them, then review results top to bottom. Do not widen to older ranges automatically.
 4. Prefer jobs marked Easily apply when that is the current UI label.
 
 ## Execution Flow
