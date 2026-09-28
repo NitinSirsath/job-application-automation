@@ -6,7 +6,7 @@ Apply to roles matching the target job titles in `personal_data/profile.md`.
 ## Search Strategy
 1. Navigate to LinkedIn Jobs.
 2. Enter the target job titles from `personal_data/profile.md`.
-3. Filter by Date Posted: "Past 24 hours" preferred, or "Past week".
+3. Apply the shared freshness rule in `AGENTS.md`: select visible Newest / Most recent and Past 24 hours controls when available, verify them, and do not widen to Past week or older ranges automatically.
 4. Filter by Easy Apply.
 
 ## Execution Flow
@@ -22,7 +22,7 @@ Apply to roles matching the target job titles in `personal_data/profile.md`.
 10. Submit the application.
 11. Wait for confirmation shown by LinkedIn.
 12. Append one record immediately to today's daily Markdown file.
-13. Wait at least 2 minutes before another LinkedIn submit.
+13. Follow the shared cooldown/rotation rule in `AGENTS.md`; do not add a separate fixed wait here.
 
 ## Exclusions
 - Do not apply when required experience exceeds the user's profile.
