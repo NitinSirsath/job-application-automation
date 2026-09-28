@@ -6,7 +6,7 @@ Apply to relevant startup roles on Wellfound using the current application and p
 ## Search Strategy
 1. Navigate to Wellfound jobs.
 2. Apply role and location filters from `personal_data/profile.md`.
-3. Sort by newest when the current UI supports it.
+3. Apply the shared freshness rule in `AGENTS.md` when the current UI exposes freshness controls; verify them before reviewing results.
 4. Run the fit check before applying.
 
 ## Execution Flow
