@@ -141,33 +141,6 @@ Use the user's local date, not UTC.
 If today's file already exists, resume it instead of creating a second file or asking for the plan again unless the user wants to change the plan.
 
 Keep the selected platforms/source choices in the saved plan order. That order is the rotation order used during START.
-
-## 4A. Power and sleep warning — `ready` gate
-
-- At every START, before the first browser action of the session, print the following warning verbatim and then wait for the user to reply exactly `ready`. Ask once per session. Do not start browsing before `ready`.
-
-**STOP. Read this before the run starts.**
-This run can take up to the configured session time limit (default 4 hours).
-If your computer sleeps, the browser disconnects and the run fails.
-Applications already recorded in today's file are safe. Unfinished ones are lost.
-Before replying `ready`, make sure ALL of these are true:
-1. The laptop or PC is plugged into power. Do not run on battery.
-2. Sleep is turned OFF for this run:
-   - macOS: System Settings → Lock Screen → "Turn display off when inactive" → Never.
-     Also System Settings → Battery → Options (or Displays → Advanced) →
-     "Prevent automatic sleeping on power adapter when the display is off" → On.
-   - Windows 11: Settings → System → Power & battery → Screen and sleep →
-     "When plugged in, put my device to sleep after" → Never, and
-     "When plugged in, turn off my screen after" → Never.
-3. The laptop lid stays open for the whole run.
-4. Chrome (or the browser your AI app controls) is already open with ONE window.
-5. Do not use this computer for other work while the run is active.
-Reply `ready` when all five are true.
-
-- If the user replies anything other than `ready`, do not start. Answer the question or repeat the checklist.
-- When a new chat resumes the same daily file, re-issue this warning and wait for `ready` again because sleep settings may have been reset.
-
-
 ### Daily file layout
 
 Use exactly one file:
@@ -278,6 +251,30 @@ For `applied`, populate the actual confirmation shown by the site. Never invent 
 For `skipped` and `needs_user`, populate the reason or unanswered question/next action. If a site stop occurs, also add a dated entry under **Site Stops** such as `- 16:10 — linkedin — site stopped: CAPTCHA`.
 
 The daily file is the single destination for all NEW application records.
+## 4A. Power and sleep warning — `ready` gate
+
+- At every START, before the first browser action of the session, print the following warning verbatim and then wait for the user to reply exactly `ready`. Ask once per session. Do not start browsing before `ready`.
+
+**STOP. Read this before the run starts.**
+This run can take up to the configured session time limit (default 4 hours).
+If your computer sleeps, the browser disconnects and the run fails.
+Applications already recorded in today's file are safe. Unfinished ones are lost.
+Before replying `ready`, make sure ALL of these are true:
+1. The laptop or PC is plugged into power. Do not run on battery.
+2. Sleep is turned OFF for this run:
+   - macOS: System Settings → Lock Screen → "Turn display off when inactive" → Never.
+     Also System Settings → Battery → Options (or Displays → Advanced) →
+     "Prevent automatic sleeping on power adapter when the display is off" → On.
+   - Windows 11: Settings → System → Power & battery → Screen and sleep →
+     "When plugged in, put my device to sleep after" → Never, and
+     "When plugged in, turn off my screen after" → Never.
+3. The laptop lid stays open for the whole run.
+4. Chrome (or the browser your AI app controls) is already open with ONE window.
+5. Do not use this computer for other work while the run is active.
+Reply `ready` when all five are true.
+
+- If the user replies anything other than `ready`, do not start. Answer the question or repeat the checklist.
+- When a new chat resumes the same daily file, re-issue this warning and wait for `ready` again because sleep settings may have been reset.
 
 ## 5. Daily limits, counting, duplicates, retries, and midnight
 
@@ -301,14 +298,7 @@ Before EVERY application:
 5. Recount company_direct + discovery together across both sources.
 6. Re-check the user's requested count for that platform.
 7. Re-check the current local date/time. If the date crossed midnight, stop using the old day's limits and create/resume the new date's file.
-8. Before continuing, compare the current local time with the session start time. If the elapsed time is at or past the session time limit:
-   1. do not open any new job;
-   2. finish only the job that is already mid-form, if any, using all normal rules;
-   3. append its outcome;
-   4. run the end-of-session behaviour in section 11;
-   5. stop and tell the user the time limit was reached and how to continue (type `start` again in a new session; the same daily file will be resumed).
-   The time limit never causes a job to be recorded as `skipped`. A cooldown wait that would cross the time limit is not waited out; end the session instead.
-
+8. Compare the current local time with the session start time. If the session time limit in section 5C is reached, follow section 5C.
 9. Check today's Site Stops in Markdown and today's legacy CSV notes. A legacy row with status `skipped` and notes beginning exactly `site stopped:` stops that platform for the current local date. A stop from an earlier local date does not block today.
 
 Do not count the same application twice. The preferred application key is:
@@ -431,34 +421,6 @@ Never submit square-bracket placeholders, sample values, or guessed years.
 - If a site asks the user to upload a file manually because automated upload is unsupported, ask the user to upload `personal_data/resume.pdf` in the current tab, wait for `done`, then verify the upload before continuing.
 - If a form is broken or keeps failing after two tries, log it as `skipped` with the reason and continue.
 - Never bypass CAPTCHA, anti-bot, 2FA, or security checks.
-
-## 7A. Browser usage rules
-
-Strategy files never override these rules.
-
-1. Pre-flight at START, right after `ready` and before anything else in the browser: list the open tabs with the host's tab-list tool. If a browser window is already open, reuse it. Never open a second browser window. If the host tool can only start a new window, open exactly ONE at session start and reuse it for the whole session.
-2. Do not start a new browser task or browser sub-agent per job. Use one browser task per platform batch (all jobs for one selected platform until its requested count is reached, its cooldown defers it, or its suitable results are exhausted). Rotation between platforms happens inside the same window.
-3. Anchor tabs: keep ONE anchor tab per selected platform. It holds that platform's search results / job list. Never close an anchor tab during the session. Never close the last remaining tab in the window.
-4. Work tab: a job page may open in a new tab because that is the site's default link behaviour. Allow it. Do all form steps in that tab. When the job's outcome has been appended to the daily file, close the work tab and focus the platform's anchor tab. If the job opened inside the anchor tab instead, navigate the anchor tab back to the saved search-results URL after recording the outcome.
-5. Never use the browser Back button. Inside a multi-step form, use the form's own Back/Previous control. Otherwise re-open the needed URL directly.
-6. Tab cap = number of selected platforms + 2. Before opening any tab, count open tabs. At the cap, close the oldest work tab first. Never exceed the cap. The anchor tabs are the only tabs that survive from one job to the next.
-7. Track tabs in the daily file under `## Browser Tabs`: one row per platform with the anchor tab's search-results URL. Update the row when the search URL changes. When a new chat resumes the day, read this table and the live tab list, and reuse existing tabs instead of opening new ones.
-8. Do not open pages unrelated to the current job flow.
-9. Prefer reading the page as text / accessibility tree. Take a screenshot only when a control cannot be found from the text read. This keeps runs faster and lighter.
-10. End of session: close all work tabs, keep the anchor tabs (logged-in sessions) open, do not close the window.
-11. Fail fast on browser connection problems. If a browser action fails to connect, or the tab list cannot be read, twice in a row: stop the run, do not keep retrying, and print this checklist verbatim:
-
-**Browser connection lost. The run is paused.**
-Check these, then reply `ready` to retry once:
-1. Is the browser open with exactly one window?
-2. Is the browser extension your AI app uses enabled and connected?
-3. Did the computer sleep or the lid close? Wake it and keep it awake.
-4. Is the computer plugged into power?
-Nothing was recorded as `applied` without a confirmation shown by the site.
-
-After `ready`, retry once. If it fails again, run the end-of-session behaviour and stop.
-12. Permission prompts: some AI apps ask for browser permission per new website. The five quick-apply platforms use fixed domains, so prompts are few. `company_direct`, `discovery`, and Workday open a new company domain for almost every job, so expect a prompt per company there. At PLAN time, when any of those three is selected, tell the user this in one sentence so they know to stay near the computer.
-
 ### Site-stop and retry rules
 If a site shows a daily-limit, unusual-activity, CAPTCHA, security check, or restriction message:
 - stop that site for the day;
@@ -479,6 +441,32 @@ Email verification required to continue is not a permanent stop. Use:
 
 Continue only after the user replies `done`.
 
+## 7A. Browser usage rules
+
+Strategy files never override these rules.
+
+1. Pre-flight at START, right after `ready` and before anything else in the browser: list the open tabs with the host's tab-list tool. If a browser window is already open, reuse it. Never open a second browser window. If the host tool can only start a new window, open exactly ONE at session start and reuse it for the whole session.
+2. Do not start a new browser task or browser sub-agent per job. Use one browser task per platform batch (all jobs for one selected platform until its requested count is reached, its cooldown defers it, or its suitable results are exhausted). Rotation between platforms happens inside the same window.
+3. Anchor tabs: keep ONE anchor tab per selected platform. It holds that platform's search results / job list. Never close an anchor tab during the session. Never close the last remaining tab in the window.
+4. Work tab: a job page may open in a new tab because that is the site's default link behaviour. Allow it. Do all form steps in that tab. When the job's outcome has been appended to the daily file, close the work tab and focus the platform's anchor tab. If the job opened inside the anchor tab instead, navigate the anchor tab back to the saved search-results URL after recording the outcome.
+5. Never use the browser Back button. Inside a multi-step form, use the form's own Back/Previous control. Otherwise re-open the needed URL directly.
+6. Tab cap = number of selected platforms + 2. Before opening any tab, count open tabs. At the cap, close the oldest work tab first. Never exceed the cap. The anchor tabs are the only tabs that survive from one job to the next.
+7. Track tabs in the daily file under `## Browser Tabs`: one row per platform with the anchor tab's search-results URL. Update the row when the search URL changes. When a new chat resumes the day, read this table and the live tab list, and reuse existing tabs instead of opening new ones.
+8. Do not open pages unrelated to the current job flow.
+9. Prefer reading the page as text / accessibility tree. Take a screenshot only when a control cannot be found from the text read. This keeps runs faster and lighter.
+10. End of session: close all work tabs, keep the anchor tabs (logged-in sessions) open, do not close the window.
+11. Fail fast on browser connection problems. If a browser action fails to connect, or the tab list cannot be read, twice in a row: stop the run, do not keep retrying, and print this checklist verbatim:
+
+    **Browser connection lost. The run is paused.**
+    Check these, then reply `ready` to retry once:
+    1. Is the browser open with exactly one window?
+    2. Is the browser extension your AI app uses enabled and connected?
+    3. Did the computer sleep or the lid close? Wake it and keep it awake.
+    4. Is the computer plugged into power?
+    Nothing was recorded as `applied` without a confirmation shown by the site.
+
+    After `ready`, retry once. If it fails again, run the end-of-session behaviour and stop.
+12. Permission prompts: some AI apps ask for browser permission per new website. The five quick-apply platforms use fixed domains, so prompts are few. `company_direct`, `discovery`, and Workday open a new company domain for almost every job, so expect a prompt per company there. At PLAN time, when any of those three is selected, tell the user this in one sentence so they know to stay near the computer.
 ## 8. Model guidance
 
 Never hard-code model names or versions.
