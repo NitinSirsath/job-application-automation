@@ -3,6 +3,8 @@
 ## Objective
 Apply to roles matching the target job titles in `personal_data/profile.md`.
 
+Browser window and tab handling follows the Browser usage rules in `AGENTS.md`. Do not add platform-specific tab or Back-button behaviour here.
+
 ## Search Strategy
 1. Navigate to LinkedIn Jobs.
 2. Enter the target job titles from `personal_data/profile.md`.

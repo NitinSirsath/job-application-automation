@@ -3,6 +3,8 @@
 ## Objective
 Apply to relevant startup roles on Wellfound using the current application and pitching UI.
 
+Browser window and tab handling follows the Browser usage rules in `AGENTS.md`. Do not add platform-specific tab or Back-button behaviour here.
+
 ## Search Strategy
 1. Navigate to Wellfound jobs.
 2. Apply role and location filters from `personal_data/profile.md`.

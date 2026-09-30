@@ -3,6 +3,8 @@
 ## Objective
 Apply to relevant roles on Instahyre while keeping the workflow deliberately conservative.
 
+Browser window and tab handling follows the Browser usage rules in `AGENTS.md`. Do not add platform-specific tab or Back-button behaviour here.
+
 ## Search Strategy
 1. Open Instahyre and inspect the actual current job/search UI at runtime.
 2. Use target titles, locations, and work modes from `personal_data/profile.md`.

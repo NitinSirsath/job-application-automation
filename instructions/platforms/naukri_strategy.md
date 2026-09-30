@@ -3,6 +3,8 @@
 ## Objective
 Apply to relevant technical roles on Naukri.com.
 
+Browser window and tab handling follows the Browser usage rules in `AGENTS.md`. Do not add platform-specific tab or Back-button behaviour here.
+
 ## Search Strategy
 1. Navigate to Naukri search.
 2. Use skills and target titles from `personal_data/profile.md`.

@@ -3,6 +3,8 @@
 ## Objective
 Apply directly on company career pages or supported direct ATS pages such as Greenhouse, Lever, and Ashby.
 
+Browser window and tab handling follows the Browser usage rules in `AGENTS.md`. Do not add platform-specific tab or Back-button behaviour here.
+
 ## Entry points
 This strategy supports two entry points:
 - **company_direct plan** — use the company career URLs saved in `personal_data/profile.md`.

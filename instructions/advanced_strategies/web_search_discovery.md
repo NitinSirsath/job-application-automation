@@ -3,6 +3,8 @@
 ## Objective
 Find relevant direct job postings outside the major platforms and continue the discovered job's actual application flow.
 
+Browser window and tab handling follows the Browser usage rules in `AGENTS.md`. Do not add platform-specific tab or Back-button behaviour here.
+
 ## Search Strategy
 1. Build searches from target job titles, accepted locations, and work modes in `personal_data/profile.md`.
 2. Prefer direct ATS/application pages such as Greenhouse, Lever, Ashby, and Workday.
