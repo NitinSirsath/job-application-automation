@@ -65,6 +65,7 @@ Use one subsection per education record.
 - **Companies to Skip:** [Company names, or None]
 - **Company Career Page URLs:** [URLs, or None]
 - **Lower Daily Limit Per Site (Optional):** [Lower than the framework maximum, or None]
+- **Session time limit (hours):** 4
 
 ## Notes
 - Keep factual profile data here as the single authoritative source.

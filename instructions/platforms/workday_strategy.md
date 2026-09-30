@@ -3,6 +3,8 @@
 ## Objective
 Complete Workday application forms safely. Any Workday application counts toward the Workday daily limit, regardless of where the job was discovered.
 
+Browser window and tab handling follows the Browser usage rules in `AGENTS.md`. Do not add platform-specific tab or Back-button behaviour here.
+
 ## Search / Entry Point
 1. When Workday is selected directly, discover roles using the current search flow.
 2. When a Workday job arrives from discovery or a company page, **continue the current discovered job**. Do not restart a Workday search.

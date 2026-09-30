@@ -3,6 +3,8 @@
 ## Objective
 Apply to relevant roles on Indeed using its current quick-apply flow.
 
+Browser window and tab handling follows the Browser usage rules in `AGENTS.md`. Do not add platform-specific tab or Back-button behaviour here.
+
 ## Search Strategy
 1. Go to Indeed.
 2. Search for target job titles from `personal_data/profile.md`.
