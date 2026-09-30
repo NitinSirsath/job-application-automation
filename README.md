@@ -94,6 +94,48 @@ Source selection records where the job was found; the daily record also stores t
 - Use one browser window, one anchor tab per platform, and a tab cap of selected platforms + 2.
 - `company_direct`, `discovery`, and Workday may trigger a browser-permission prompt per company.
 
+## 🛠️ Troubleshooting
+
+**The AI app keeps asking for browser permission, sometimes 10 to 15 times.**
+Why: many AI apps ask once per new website. `company_direct`, `discovery`, and Workday open a new company domain for almost every job.
+Do this: allow it for the session if your app offers that; stay near the computer when those three sources are selected; for hands-off runs use the five quick-apply platforms (LinkedIn, Indeed, Naukri, Wellfound, Instahyre), which use fixed domains.
+
+**"Browser connection lost. The run is paused."**
+Why: the browser closed, the computer slept, or the extension the AI app uses lost its connection.
+Do this: open the browser with exactly one window; check the extension is enabled and connected; wake the computer and keep it on power; reply `ready`. The agent retries once, then ends the session cleanly. Nothing was recorded as applied without a site confirmation.
+
+**Many browser windows or tabs opened and the computer became slow or unusable.**
+Why: the run was started before the browser rules in `AGENTS.md` section 7A existed, or the AI app started a new browser task per job.
+Do this: stop the run; close every extra window and tab; keep one window with one tab per platform; type `start` to resume the same daily file. Expected tab count during a run is selected platforms + 2.
+
+**The run stopped by itself after about 4 hours.**
+Why: the session time limit in `personal_data/profile.md` was reached. This is intended.
+Do this: type `start` in a new session to continue today's file. To change the limit, edit `Session time limit (hours)` in `personal_data/profile.md`.
+
+**The laptop slept overnight and the run died.**
+Why: sleep disconnects the browser. The "Before you start" checklist was not followed.
+Do this: applications already recorded in `applied/YYYY-MM-DD/applications.md` are safe. Fix the sleep settings from the checklist, plug in the charger, type `start` to resume.
+
+**The agent keeps asking me to sign in.**
+Why: the platform is signed out. Ordinary login is not a site stop and the agent will not type your password.
+Do this: sign in yourself in the current tab, then reply `done`. The agent verifies the login and continues the same job.
+
+**A platform stopped for the day after a CAPTCHA or "unusual activity" message.**
+Why: this is a site stop. The agent never bypasses CAPTCHA, anti-bot, or security checks.
+Do this: nothing today on that platform. The stop is recorded under Site Stops in today's file. Other selected platforms continue. Try that platform again tomorrow.
+
+**Setup asks questions I already answered, or loops.**
+Why: a required field in `personal_data/profile.md` or `personal_data/form_answers.md` still contains bracketed placeholder text, or the resume is missing at `personal_data/resume.pdf`.
+Do this: open those files, replace any remaining `[bracketed placeholders]` in required fields, store optional unknowns as `None`, confirm the resume file exists, then type `start`.
+
+**Counts look wrong or there seem to be two records for one day.**
+Why: only `applied/YYYY-MM-DD/applications.md` is the live record. The legacy `tracking/applied_jobs.csv` is read-only history.
+Do this: check the Application Plan table in today's file. Never create a second daily file. If two sessions ran on the same date, both must have written to the same file.
+
+**The run is slow.**
+Why: this is by design. One job at a time, full job read, first-submit `ok` approval, a 120-second cooldown per platform, and file re-reads before every application. Fifty applications takes several hours.
+Do this: request 10 to 15 per platform per session, select 3 to 5 platforms so the cooldowns overlap, and let the 4-hour session limit end the run cleanly.
+
 ## 🔒 Practical safeguards
 
 The workflow keeps fit checks, scoped duplicate checks, no-guessing rules, prefilled-data verification, first-submit approval, additional host-app approvals, 120-second same-platform/workflow cooldowns with platform rotation, CAPTCHA/security stop rules, unsupported-upload handling, account-record reuse, and confirmation-before-success. Freshness follows the visible-controls rule in `AGENTS.md`.
