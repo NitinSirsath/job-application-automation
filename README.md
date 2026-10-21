@@ -136,6 +136,23 @@ Do this: check the Application Plan table in today's file. Never create a second
 Why: this is by design. One job at a time, full job read, first-submit `ok` approval, a 120-second cooldown per platform, and file re-reads before every application. Fifty applications takes several hours.
 Do this: request 10 to 15 per platform per session, select 3 to 5 platforms so the cooldowns overlap, and let the 4-hour session limit end the run cleanly.
 
+## 🔗 Optional: Career Companion sync
+
+Career Companion is a separate app that tracks your job applications. With sync on, the agent records each job there as it finishes, so you can see where you applied, with the job link and your answers, in one place. It needs a Career Companion account and an integration token. Sync is off by default and nothing changes until you turn it on.
+
+**What is sent**
+- For each application (right after it is recorded in today's file): company, job title, platform, job link, apply page link, job ID, where the job was found, location, work mode, submitted time, the site's confirmation, the resume file name, and every submitted question and answer (including salary and notice period).
+- For each job not applied to (`skipped` or `needs_user`, at the end of the session): company, job title, platform, job link, the reason and the time.
+- Never sent: passwords or other credentials, the resume file or its content, and plan, limit or session state.
+
+**Set up once**
+1. In Career Companion, open **Automation → Setup** and create a token. Copy it; it is shown once.
+2. Add the server to your AI app's **user-level** MCP settings (never a file inside this repository), with the server address from the Setup tab and the header `Authorization: Bearer <token>`. If your app cannot send headers, use the `mcp-remote` bridge: `npx mcp-remote <server address>/mcp --header "Authorization: Bearer <token>"`.
+3. Allow the two tools: `record_application_submission` and `record_not_submitted_job`.
+4. In `personal_data/profile.md`, set `Career Companion server:` to the address the Setup tab shows (the same line it shows you).
+
+The agent wakes the server at the start of each run (a free host can sleep when idle), retries a failed send once, and resends failed sends at the end of the session. To send a missed day later, say "sync Career Companion for YYYY-MM-DD". Tokens expire: when the agent says the tools are not available, create a new token and replace it in your AI app's settings.
+
 ## 🔒 Practical safeguards
 
 The workflow keeps fit checks, scoped duplicate checks, no-guessing rules, prefilled-data verification, first-submit approval, additional host-app approvals, 120-second same-platform/workflow cooldowns with platform rotation, CAPTCHA/security stop rules, unsupported-upload handling, account-record reuse, and confirmation-before-success. Freshness follows the visible-controls rule in `AGENTS.md`.

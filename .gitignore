@@ -17,3 +17,6 @@
 !/personal_data/profile_template.md
 !/personal_data/form_answers_template.md
 !/personal_data/credentials_template.md
+
+# MCP client settings may contain a Career Companion token; never commit them.
+.agents/mcp_config.json
