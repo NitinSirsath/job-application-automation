@@ -22,6 +22,8 @@ Never run SETUP, collect personal information, or submit applications merely bec
 - `personal_data/form_answers.md` — reusable common screening answers plus contextual answers that are only reusable when their recorded context matches.
 - `personal_data/credentials.md` — reusable company-portal credential information. Never copy passwords into application reports.
 
+`Career Companion server` in `profile.md` is optional: `None` (the default) means Career Companion sync is off. It is never a SETUP question and never blocks START.
+
 If two sources disagree about the same factual field, do not choose one silently. Mark the job `needs_user`, ask the user to resolve the conflict, and save the resolved answer immediately to the authoritative source.
 
 ### Runtime records
@@ -238,15 +240,19 @@ For each job, append immediately after the outcome:
 - Selected plan choice:
 - Discovery source:
 - Actual application destination:
+- Apply page URL:
 - Resume filename:
 - Submitted answers:
   - Question: Answer
 - Status: applied | skipped | needs_user
 - Confirmation shown:
 - Skip reason / unanswered question / next action:
+- Career Companion sync:
 ```
 
 For `applied`, populate the actual confirmation shown by the site. Never invent a confirmation.
+
+`Apply page URL` is the full address of the page where the form was submitted, not only its host. `Career Companion sync` is filled only when sync is on (section 11A); otherwise leave the line out.
 
 For `skipped` and `needs_user`, populate the reason or unanswered question/next action. If a site stop occurs, also add a dated entry under **Site Stops** such as `- 16:10 — linkedin — site stopped: CAPTCHA`.
 
@@ -554,13 +560,59 @@ Discovery must continue the currently discovered job's application flow:
 ## 11. End-of-session behavior
 
 At the end of a session:
+- when Career Companion sync is on, run its end-of-session steps first (section 11A);
 - summarize today's outcomes from the daily file;
 - include applied, skipped, and needs_user jobs;
 - include any site stops;
+- when Career Companion sync is on, include how many entries were sent and list any still `failed`;
 - ask the user unresolved questions;
 - when the user answers a new question, save it immediately under `## Learned Answers`.
 
 Never create a second daily application file for another session on the same local date.
+
+## 11A. Career Companion sync (optional)
+
+Career Companion is a separate app that tracks job applications. When sync is on, the agent records each outcome there through its MCP tools, so a stopped session has already sent everything applied so far. The daily file stays the source of truth: sync never blocks, delays, or changes applying.
+
+**Sync is on** only when `Career Companion server` in `personal_data/profile.md` holds an address (not `None`). Otherwise skip this whole section: no tool calls, no messages, no sync lines.
+
+**At START, right after `ready`:**
+1. Wake the server: it may sleep when idle and take 30–60 seconds to wake. Request `<server>/health` once with a web-fetch or terminal tool (for example `curl -s -m 90 <server>/health`), without waiting for the answer. Never open it in a browser tab. If no such tool exists, skip this step.
+2. Check that the MCP tools `record_application_submission` and `record_not_submitted_job` (server `career-companion`) are available. If they are not, tell the user once: "Career Companion sync is on, but its tools are not available. Check the MCP server in your AI app's settings. An expired token makes the tools disappear without an error." Then continue applying; every send this session is marked `failed (tools not available)`.
+
+**Right after each `applied` entry is appended** (only after the site showed a confirmation), call `record_application_submission` once for that entry, with values copied from it. Leave out any field that is empty or `None`.
+
+| Tool field | Value from the entry |
+| --- | --- |
+| `sourceRecordRef` | `YYYY-MM-DD/HH:MM:SS`: the date folder of the daily file, `/`, and the time in the entry heading. Copy it exactly; never invent or reformat it. |
+| `platform` | One of `linkedin`, `indeed`, `naukri`, `wellfound`, `instahyre`, `workday`, `company_direct`, `discovery`: the application workflow actually used. Workday wins whenever a Workday form was used. Never a job-source name. |
+| `company`, `jobTitle` | `Company`, `Job title`. |
+| `submittedAt` | `Local date/time` as ISO 8601 with the local UTC offset, for example `2026-10-20T14:14:05+05:30` (offset from `date +%z`). |
+| `jobUrl` | `Job URL`. |
+| `applyUrl` | `Apply page URL` (the full address). |
+| `destinationHost` | The host name of `Apply page URL` (or of `Actual application destination`), for example `jobs.lever.co`. |
+| `portalJobId` | `Job ID`. |
+| `discoverySource` | `Discovery source`, for example `we_work_remotely`. |
+| `location` | `Location`. |
+| `workMode` | `remote`, `hybrid` or `onsite`; leave it out for anything else. |
+| `confirmationText` | `Confirmation shown`. |
+| `resumeFilename` | `Resume filename`: the file name only. |
+| `submittedAnswers` | Every `Question: Answer` line under `Submitted answers`, as `{ "question": ..., "answer": ... }`, in order. |
+
+Never send a password, a credential, the resume file or its content, or plan, limit, cooldown, tab or session state.
+
+**Then add the sync line to that entry:**
+- `- Career Companion sync: sent` for the results `created`, `linked`, `needs_review` or `recorded`;
+- `- Career Companion sync: already recorded` for `already_recorded`;
+- `- Career Companion sync: failed (<reason>)` for an error or no answer, for example `failed (unavailable)`, `failed (invalid_input: platform)` or `failed (rate_limited)`.
+
+**One retry.** When a send fails with `unavailable`, a timeout or a connection error, try that entry once more at the first point between jobs at least 60 seconds later (the server may have been waking up), and update its line. Never pause or slow applying for it. Do not retry `invalid_input` (fix the entry first) or `rate_limited` (retry the next day).
+
+**At the end of a session** (section 11, also when the session time limit in section 5C ends it):
+1. For each `skipped` or `needs_user` entry in today's file that has a company and a job title and no sync line (this includes entries left by an earlier session that stopped early), call `record_not_submitted_job` once with: `sourceRecordRef` (as above), `outcome` (`skipped` or `needs_user`), `platform` (as above; use `discovery` when the entry names a job source), `company`, `jobTitle`, `loggedAt` (`Local date/time` as ISO 8601 with the offset), `reason` (`Skip reason / unanswered question / next action`), and `jobUrl` when known. Add the sync line as above. These jobs never become applications in Career Companion.
+2. Resend every entry of today's file whose sync line is `failed (...)`, except `invalid_input` and `rate_limited`, and update the line. Entries marked `sent` or `already recorded` are never sent again.
+
+**Replay on request:** when the user says "sync Career Companion for YYYY-MM-DD", read that day's file and send every entry whose sync line is missing or `failed`, with the matching tool, then update the lines. Repeats are safe: the same `sourceRecordRef` is recorded once, and a repeat only fills details Career Companion does not have yet.
 
 ## 12. Walkthrough checklist for verification
 
@@ -596,5 +648,10 @@ The instructions must support these scenarios without contradictions:
 28. **Tab cap reached** — with three platforms selected the cap is 5; the oldest work tab is closed before a new one opens.
 29. **Browser disconnects mid-run** — two consecutive failures print the checklist, wait for `ready`, retry once, then end the session cleanly.
 30. **Session time limit** — the limit is read from `profile.md` (default 4 h); when reached, only the mid-form job is finished, the summary is written, and the session stops without recording `skipped`.
+31. **Career Companion sync off** — `Career Companion server: None`: no tool call, no message, no sync lines; the session behaves exactly as before.
+32. **Career Companion sync on** — after `ready` the server is woken; each `applied` entry is sent right after it is appended and gets `sent`; a stopped session keeps what was already sent; at the end the `skipped` and `needs_user` entries are sent with their reason.
+33. **Server asleep or down** — a send fails, is retried once at least 60 seconds later, and if it still fails is resent at the end of the session; applying never waits for it.
+34. **Sync tools missing** — sync is on but the tools are absent (for example an expired token): one message at START, sends marked `failed (tools not available)`, applying continues.
+35. **Replay** — "sync Career Companion for YYYY-MM-DD" twice: only entries not marked `sent` or `already recorded` are sent the first time; the second time nothing new is recorded.
 
 Do not claim live application testing. These walkthroughs are static instruction/workflow checks unless an actual browser session is separately performed.
