@@ -67,6 +67,11 @@ Use one subsection per education record.
 - **Lower Daily Limit Per Site (Optional):** [Lower than the framework maximum, or None]
 - **Session time limit (hours):** 4
 
+## Career Companion (optional)
+- **Career Companion server:** None
+
+> Leave `None` unless you use Career Companion. To turn sync on, put the server address shown on its Automation page here, for example `https://your-app.example.com`, and follow the README setup. See `AGENTS.md` section 11A.
+
 ## Notes
 - Keep factual profile data here as the single authoritative source.
 - Save employer-, country-, role-, or portal-specific answer variants in `form_answers.md` with explicit context instead of overwriting these global facts.
